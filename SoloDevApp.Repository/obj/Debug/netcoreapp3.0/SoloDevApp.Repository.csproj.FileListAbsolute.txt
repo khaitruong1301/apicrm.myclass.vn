@@ -1,0 +1,8 @@
+D:\CYBERSOFT\STARTUP\SoloDevApp\SoloDevApp.Repository\bin\Debug\netcoreapp3.0\SoloDevApp.Repository.deps.json
+D:\CYBERSOFT\STARTUP\SoloDevApp\SoloDevApp.Repository\bin\Debug\netcoreapp3.0\SoloDevApp.Repository.dll
+D:\CYBERSOFT\STARTUP\SoloDevApp\SoloDevApp.Repository\bin\Debug\netcoreapp3.0\SoloDevApp.Repository.pdb
+D:\CYBERSOFT\STARTUP\SoloDevApp\SoloDevApp.Repository\obj\Debug\netcoreapp3.0\SoloDevApp.Repository.csprojAssemblyReference.cache
+D:\CYBERSOFT\STARTUP\SoloDevApp\SoloDevApp.Repository\obj\Debug\netcoreapp3.0\SoloDevApp.Repository.AssemblyInfoInputs.cache
+D:\CYBERSOFT\STARTUP\SoloDevApp\SoloDevApp.Repository\obj\Debug\netcoreapp3.0\SoloDevApp.Repository.AssemblyInfo.cs
+D:\CYBERSOFT\STARTUP\SoloDevApp\SoloDevApp.Repository\obj\Debug\netcoreapp3.0\SoloDevApp.Repository.dll
+D:\CYBERSOFT\STARTUP\SoloDevApp\SoloDevApp.Repository\obj\Debug\netcoreapp3.0\SoloDevApp.Repository.pdb

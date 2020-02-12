@@ -1,0 +1,11 @@
+D:\CYBERSOFT\STARTUP\SoloDevApp\SoloDevApp.Service\bin\Debug\netcoreapp3.0\SoloDevApp.Service.deps.json
+D:\CYBERSOFT\STARTUP\SoloDevApp\SoloDevApp.Service\bin\Debug\netcoreapp3.0\SoloDevApp.Service.dll
+D:\CYBERSOFT\STARTUP\SoloDevApp\SoloDevApp.Service\bin\Debug\netcoreapp3.0\SoloDevApp.Service.pdb
+D:\CYBERSOFT\STARTUP\SoloDevApp\SoloDevApp.Service\bin\Debug\netcoreapp3.0\SoloDevApp.Repository.dll
+D:\CYBERSOFT\STARTUP\SoloDevApp\SoloDevApp.Service\bin\Debug\netcoreapp3.0\SoloDevApp.Repository.pdb
+D:\CYBERSOFT\STARTUP\SoloDevApp\SoloDevApp.Service\obj\Debug\netcoreapp3.0\SoloDevApp.Service.csprojAssemblyReference.cache
+D:\CYBERSOFT\STARTUP\SoloDevApp\SoloDevApp.Service\obj\Debug\netcoreapp3.0\SoloDevApp.Service.AssemblyInfoInputs.cache
+D:\CYBERSOFT\STARTUP\SoloDevApp\SoloDevApp.Service\obj\Debug\netcoreapp3.0\SoloDevApp.Service.AssemblyInfo.cs
+D:\CYBERSOFT\STARTUP\SoloDevApp\SoloDevApp.Service\obj\Debug\netcoreapp3.0\SoloDevApp.Service.csproj.CopyComplete
+D:\CYBERSOFT\STARTUP\SoloDevApp\SoloDevApp.Service\obj\Debug\netcoreapp3.0\SoloDevApp.Service.dll
+D:\CYBERSOFT\STARTUP\SoloDevApp\SoloDevApp.Service\obj\Debug\netcoreapp3.0\SoloDevApp.Service.pdb

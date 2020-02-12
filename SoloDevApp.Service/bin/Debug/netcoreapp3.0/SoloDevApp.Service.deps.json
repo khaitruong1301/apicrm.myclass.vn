@@ -1,0 +1,36 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v3.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v3.0": {
+      "SoloDevApp.Service/1.0.0": {
+        "dependencies": {
+          "SoloDevApp.Repository": "1.0.0"
+        },
+        "runtime": {
+          "SoloDevApp.Service.dll": {}
+        }
+      },
+      "SoloDevApp.Repository/1.0.0": {
+        "runtime": {
+          "SoloDevApp.Repository.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "SoloDevApp.Service/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "SoloDevApp.Repository/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
