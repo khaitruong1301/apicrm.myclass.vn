@@ -14,7 +14,7 @@
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {
-        "GOOGLE_APPLICATION_CREDENTIALS": "C:\\Keys\\google-tranlation.json",
+        "GOOGLE_APPLICATION_CREDENTIALS": "Config\\google-tranlation.json",
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
