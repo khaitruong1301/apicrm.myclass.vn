@@ -13,5 +13,6 @@ namespace SoloDevApp.Service.ViewModels
         public HashSet<int> DanhSachLoTrinh { get; set; }
         public List<int> DanhSachChuongHoc { get; set; }
         public int SoNgayKichHoat { get; set; }
+        public bool KichHoatSan { get; set; }
     }
 }

@@ -48,6 +48,21 @@ namespace SoloDevApp.Api.Controllers
             }
         }
 
+        [HttpPost("cmnd")]
+        public async Task<IActionResult> Cmnd()
+        {
+            try
+            {
+                IFormFileCollection files = Request.Form.Files;
+                string result = await _fileService.UploadCmndAsync(files[0]);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpPost("video")]
         public async Task<IActionResult> Video()
         {

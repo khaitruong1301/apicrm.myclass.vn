@@ -15,7 +15,8 @@ namespace SoloDevApp.Service.ViewModels
         public HashSet<dynamic> DanhSachGiangVien { get; set; }
         public HashSet<dynamic> DanhSachMentor { get; set; }
         public HashSet<dynamic> DanhSachHocVien { get; set; }
-        public HashSet<NguoiDungViewModel> DanhSachNguoiDung { get; set; }
+        public List<NguoiDungViewModel> DanhSachNguoiDung { get; set; }
+        public List<KhoaHocViewModel> DanhSachKhoaHoc { get; set; }
         public int MaTrangThai { get; set; }
         public int MaLoTrinh { get; set; }
     }

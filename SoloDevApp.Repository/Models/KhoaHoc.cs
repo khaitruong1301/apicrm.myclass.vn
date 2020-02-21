@@ -11,5 +11,6 @@
         public string DanhSachLoTrinh { get; set; }
         public string DanhSachChuongHoc { get; set; }
         public int SoNgayKichHoat { get; set; }
+        public bool KichHoatSan { get; set; }
     }
 }

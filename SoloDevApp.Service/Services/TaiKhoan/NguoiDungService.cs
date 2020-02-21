@@ -23,6 +23,8 @@ namespace SoloDevApp.Service.Services
     {
         Task<ResponseEntity> SignInAsync(DangNhapViewModel modelVm);
 
+        Task<ResponseEntity> SignInFacebookAsync(DangNhapFacebookViewModel modelVm);
+
         Task<ResponseEntity> SignUpAsync(DangKyViewModel modelVm);
 
         Task<ResponseEntity> InsertUserAsync(DangKyViewModel modelVm);
@@ -38,16 +40,22 @@ namespace SoloDevApp.Service.Services
     {
         private readonly INguoiDungRepository _nguoiDungRepository;
         private readonly INhomQuyenRepository _nhomQuyenRepository;
+        private readonly IKhachHangRepository _khachHangRepository;
+        private readonly ILopHocRepository _lopHocRepository;
         private readonly HttpClient _httpClient;
         private readonly IAppSettings _appSettings;
 
         public NguoiDungService(INguoiDungRepository nguoiDungRepository,
-            IMapper mapper, INhomQuyenRepository nhomQuyenRepository, 
+            IMapper mapper, INhomQuyenRepository nhomQuyenRepository,
+            IKhachHangRepository khachHangRepository,
+            ILopHocRepository lopHocRepository,
             IAppSettings appSettings)
             : base(nguoiDungRepository, mapper)
         {
             _nguoiDungRepository = nguoiDungRepository;
             _nhomQuyenRepository = nhomQuyenRepository;
+            _khachHangRepository = khachHangRepository;
+            _lopHocRepository = lopHocRepository;
             _appSettings = appSettings;
             _httpClient = new HttpClient();
             _httpClient.DefaultRequestHeaders
@@ -125,6 +133,73 @@ namespace SoloDevApp.Service.Services
             }
         }
 
+        public async Task<ResponseEntity> SignInFacebookAsync(DangNhapFacebookViewModel modelVm)
+        {
+            try
+            {
+                await _lopHocRepository.EnableAsync();
+
+                NguoiDung entity = await _nguoiDungRepository.GetByFacebookAsync(modelVm.FacebookId);
+                if (entity != null) // Nếu FacebookId đúng => đăng nhập thành công
+                {
+                    // Tạo token
+                    entity.Token = await GenerateToken(entity);
+                    NguoiDungViewModel model = _mapper.Map<NguoiDungViewModel>(entity);
+                    return new ResponseEntity(StatusCodeConstants.OK, model, MessageConstants.SIGNIN_SUCCESS);
+                }
+
+                // Nếu facebook id sai và email chưa nhập
+                if (string.IsNullOrEmpty(modelVm.Email))
+                    return new ResponseEntity(StatusCodeConstants.BAD_REQUEST, modelVm, "Vui lòng nhập email bạn đã đăng ký!");
+
+                // Lấy ra thông tin người dùng từ database dựa vào email
+                entity = await _nguoiDungRepository.GetByEmailAsync(modelVm.Email);
+                if (entity == null)// Nếu email sai
+                    return new ResponseEntity(StatusCodeConstants.BAD_REQUEST, modelVm, MessageConstants.SIGNIN_ERROR);
+
+                // Email đúng FacebookId có tồn tại nhưng không khớp với facebook id đang đăng nhập
+                // Cái này để tránh trường hợp 1 email xài cho nhiều tài khoản
+                if (!string.IsNullOrEmpty(entity.FacebookId))
+                    return new ResponseEntity(StatusCodeConstants.BAD_REQUEST, modelVm, "Email này đã được sử dụng cho tài khoản facebook khác!");
+
+                // Kiểm tra xem email đã tồn tại trong bảng khách hàng chưa
+                //  - Nếu chưa có thông báo đăng nhập thất bại
+                //  - Nếu có thì tạo tài khoản cho user=> đăng nhập thành công
+                KhachHang khachHang = await _khachHangRepository.GetByEmailAsync(modelVm.Email);
+                if (khachHang == null)
+                    return new ResponseEntity(StatusCodeConstants.BAD_REQUEST, modelVm, MessageConstants.SIGNIN_ERROR);
+
+                ThongTinKHViewModel thongTinKHVm = _mapper.Map<ThongTinKHViewModel>(khachHang.ThongTinKH);
+                // Tạo tài khoản mới cho user
+                entity = new NguoiDung();
+                entity.Id = Guid.NewGuid().ToString();
+                entity.Email = thongTinKHVm.Email;
+                entity.MatKhau = BCrypt.Net.BCrypt.HashPassword("Cybersoft@123");
+                entity.HoTen = khachHang.TenKH;
+                entity.BiDanh = khachHang.BiDanh;
+                entity.SoDT = thongTinKHVm.SoDienThoai;
+                entity.Avatar = "/static/user-icon.png";
+                entity.MaNhomQuyen = "HOCVIEN";
+                // Thực hiện truy vấn thêm mới
+                entity = await _nguoiDungRepository.InsertAsync(entity);
+                if (entity == null)
+                    return new ResponseEntity(StatusCodeConstants.BAD_REQUEST, modelVm, MessageConstants.SIGNIN_ERROR);
+
+                // Lưu FacebookId vào database
+                entity.FacebookId = modelVm.FacebookId;
+                entity = await _nguoiDungRepository.UpdateAsync(entity.Id, entity);
+
+                // Tạo token
+                entity.Token = await GenerateToken(entity);
+                NguoiDungViewModel result = _mapper.Map<NguoiDungViewModel>(entity);
+                return new ResponseEntity(StatusCodeConstants.OK, result, MessageConstants.SIGNIN_SUCCESS);
+            }
+            catch(Exception ex)
+            {
+                return new ResponseEntity(StatusCodeConstants.BAD_REQUEST, modelVm, MessageConstants.SIGNIN_ERROR);
+            }
+        }
+
         public async Task<ResponseEntity> SignUpAsync(DangKyViewModel modelVm)
         {
             try
@@ -179,6 +254,26 @@ namespace SoloDevApp.Service.Services
                 return new ResponseEntity(StatusCodeConstants.BAD_REQUEST, modelVm, MessageConstants.SIGNUP_ERROR);
             }
         }
+        
+        public async Task<ResponseEntity> UpdateUserAsync(string id, SuaNguoiDungViewModel modelVm)
+        {
+            try
+            {
+                NguoiDung entity = await _nguoiDungRepository.GetSingleByIdAsync(id);
+                if (entity == null)
+                    return new ResponseEntity(StatusCodeConstants.NOT_FOUND, modelVm);
+
+                entity = _mapper.Map<NguoiDung>(modelVm);
+                await _nguoiDungRepository.UpdateAsync(id, entity);
+
+                return new ResponseEntity(StatusCodeConstants.OK, modelVm, MessageConstants.UPDATE_SUCCESS);
+            }
+            catch (Exception ex)
+            {
+                return new ResponseEntity(StatusCodeConstants.ERROR_SERVER, ex.Message);
+            }
+        }
+
         private async Task<string> GenerateToken(NguoiDung entity)
         {
             try
@@ -209,25 +304,6 @@ namespace SoloDevApp.Service.Services
             catch (Exception ex)
             {
                 throw ex;
-            }
-        }
-
-        public async Task<ResponseEntity> UpdateUserAsync(string id, SuaNguoiDungViewModel modelVm)
-        {
-            try
-            {
-                NguoiDung entity = await _nguoiDungRepository.GetSingleByIdAsync(id);
-                if (entity == null)
-                    return new ResponseEntity(StatusCodeConstants.NOT_FOUND, modelVm);
-
-                entity = _mapper.Map<NguoiDung>(modelVm);
-                await _nguoiDungRepository.UpdateAsync(id, entity);
-
-                return new ResponseEntity(StatusCodeConstants.OK, modelVm, MessageConstants.UPDATE_SUCCESS);
-            }
-            catch (Exception ex)
-            {
-                return new ResponseEntity(StatusCodeConstants.ERROR_SERVER, ex.Message);
             }
         }
     }

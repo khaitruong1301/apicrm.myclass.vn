@@ -17,6 +17,7 @@ namespace SoloDevApp.Service.Services
         Task<List<string>> UploadVideoAsync(IFormFileCollection files);
         Task<List<string>> UploadVideoFTPAsync(IFormFileCollection files);
         Task<string> GetUrlFTPVideoAsync(string fileName);
+        Task<string> UploadCmndAsync(IFormFile file);
     }
 
     public class FileService : IFileService
@@ -61,6 +62,23 @@ namespace SoloDevApp.Service.Services
                 return url;
             }
             catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<string> UploadCmndAsync(IFormFile file)
+        {
+            try
+            {
+                string filePath = "";
+                if (file != null && file.Length != 0)
+                {
+                    filePath = await SaveFileAsync(file, "cmnd");
+                }
+                return filePath;
+            }
+            catch (Exception ex)
             {
                 throw ex;
             }

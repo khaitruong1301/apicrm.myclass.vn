@@ -8,6 +8,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace SoloDevApp.Service.Services
 {
@@ -47,6 +48,18 @@ namespace SoloDevApp.Service.Services
 
                 // Lấy ra danh sách thông tin các khóa học thuộc lộ trình sau khi cập nhật
                 var khoaHocs = (await _khoaHocRepository.GetMultiByIdAsync(listId.ToList()));
+                // Cập nhật lại danh sách lộ trình của mỗi khóa học
+                foreach(KhoaHoc item in khoaHocs)
+                {
+                    HashSet<dynamic> dsMaLoTrinh = new HashSet<dynamic>();
+                    if(item.DanhSachLoTrinh != null)
+                    {
+                        dsMaLoTrinh = JsonConvert.DeserializeObject<HashSet<dynamic>>(item.DanhSachLoTrinh);
+                    }
+                    dsMaLoTrinh.Add(id);
+                    item.DanhSachLoTrinh = JsonConvert.SerializeObject(dsMaLoTrinh);
+                    await _khoaHocRepository.UpdateAsync(item.Id, item);
+                }
 
                 // Convert về đối tượng ThongTinLoTrinhViewModel
                 var modelVm = _mapper.Map<ThongTinLoTrinhViewModel>(loTrinh);

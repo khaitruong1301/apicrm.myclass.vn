@@ -16,5 +16,6 @@ namespace SoloDevApp.Service.ViewModels
         public List<dynamic> DanhSachChuongHoc { get; set; }
         public List<ThongTinChuongHocViewModel> ThongTinChuongHoc { get; set; }
         public int SoNgayKichHoat { get; set; }
+        public bool KichHoatSan { get; set; }
     }
 }

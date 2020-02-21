@@ -59,7 +59,13 @@ namespace SoloDevApp.Api.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Post([FromBody] DangNhapViewModel model)
+        public async Task<IActionResult> Login([FromBody] DangNhapFacebookViewModel model)
+        {
+            return await _nguoiDungService.SignInFacebookAsync(model);
+        }
+
+        [HttpPost("admin-login")]
+        public async Task<IActionResult> AdminLogin([FromBody] DangNhapViewModel model)
         {
             return await _nguoiDungService.SignInAsync(model);
         }

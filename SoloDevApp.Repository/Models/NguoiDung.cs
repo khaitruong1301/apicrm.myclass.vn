@@ -16,5 +16,6 @@
         public string Diem { get; set; }
         public string ThongTinMoRong { get; set; }
         public string MaNhomQuyen { get; set; }
+        public string DanhSachLopHoc { get; set; }
     }
 }

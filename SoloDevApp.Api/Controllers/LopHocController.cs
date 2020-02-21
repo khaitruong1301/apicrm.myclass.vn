@@ -42,6 +42,12 @@ namespace SoloDevApp.Api.Controllers
             return await _lopHocService.GetPagingAsync(page, size, keywords);
         }
 
+        [HttpGet("course/{id}")]
+        public async Task<IActionResult> GetCourse(int id)
+        {
+            return await _lopHocService.GetCourseByClassIdAsync(id);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] LopHocViewModel model)
         {

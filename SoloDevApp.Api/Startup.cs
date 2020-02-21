@@ -115,6 +115,8 @@ namespace SoloDevApp.Api
                 Configuration.GetSection("MailSettings").Get<MailSettings>());
             services.AddSingleton<IFtpSettings>(
                 Configuration.GetSection("FtpSettings").Get<FtpSettings>());
+            services.AddSingleton<ICaptchaSettings>(
+                Configuration.GetSection("CaptchaSettings").Get<CaptchaSettings>());
 
             var appSettingsSection = Configuration.GetSection("AppSettings");
             services.AddSingleton<IAppSettings>(

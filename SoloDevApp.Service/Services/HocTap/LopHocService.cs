@@ -8,26 +8,53 @@ using SoloDevApp.Service.Infrastructure;
 using SoloDevApp.Service.ViewModels;
 using System.Linq;
 using System;
+using Newtonsoft.Json;
+using SoloDevApp.Service.Utilities;
 
 namespace SoloDevApp.Service.Services
 {
     public interface ILopHocService : IService<LopHoc, LopHocViewModel>
     {
         Task<ResponseEntity> GetInfoByIdAsync(dynamic id);
+        Task<ResponseEntity> GetCourseByClassIdAsync(dynamic id);
     }
 
     public class LopHocService : ServiceBase<LopHoc, LopHocViewModel>, ILopHocService
     {
         ILopHocRepository _lopHocRepository;
         INguoiDungRepository _nguoiDungRepository;
+        ILoTrinhRepository _loTrinhRepository;
+        IKhoaHocRepository _khoaHocRepository;
 
         public LopHocService(ILopHocRepository lopHocRepository,
             INguoiDungRepository nguoiDungRepository,
+            ILoTrinhRepository loTrinhRepository,
+            IKhoaHocRepository khoaHocRepository,
             IMapper mapper)
             : base(lopHocRepository, mapper)
         {
             _lopHocRepository = lopHocRepository;
             _nguoiDungRepository = nguoiDungRepository;
+            _loTrinhRepository = loTrinhRepository;
+            _khoaHocRepository = khoaHocRepository;
+        }
+
+        public async Task<ResponseEntity> GetCourseByClassIdAsync(dynamic id)
+        {
+            try
+            {
+                LopHoc lopHoc = await _lopHocRepository.GetSingleByIdAsync(id);
+                if (lopHoc == null)
+                    return new ResponseEntity(StatusCodeConstants.NOT_FOUND);
+
+                List<KhoaHoc> dsKhoaHocKichHoat = await GetCourseActived(lopHoc.MaLoTrinh, lopHoc.NgayBatDau);
+                var dsKhoaHocVm = _mapper.Map<List<KhoaHocViewModel>>(dsKhoaHocKichHoat);
+                return new ResponseEntity(StatusCodeConstants.OK, dsKhoaHocVm);
+            }
+            catch (Exception ex)
+            {
+                return new ResponseEntity(StatusCodeConstants.ERROR_SERVER, ex.Message);
+            }
         }
 
         public async Task<ResponseEntity> GetInfoByIdAsync(dynamic id)
@@ -35,34 +62,81 @@ namespace SoloDevApp.Service.Services
             HashSet<dynamic> listId = new HashSet<dynamic>();
             try
             {
-                var entity = await _lopHocRepository.GetSingleByIdAsync(id);
-                if (entity == null)
+                LopHoc lopHoc = await _lopHocRepository.GetSingleByIdAsync(id);
+                if (lopHoc == null)
                     return new ResponseEntity(StatusCodeConstants.NOT_FOUND);
 
-                ThongTinLopHocViewModel modelVm = _mapper.Map<ThongTinLopHocViewModel>(entity);
-                foreach(dynamic item in modelVm.DanhSachGiangVien)
+                ThongTinLopHocViewModel thongTinLopHocVm = _mapper.Map<ThongTinLopHocViewModel>(lopHoc);
+                foreach(dynamic item in thongTinLopHocVm.DanhSachGiangVien)
                 {
                     listId.Add(item);
                 }
-                foreach (dynamic item in modelVm.DanhSachMentor)
+                foreach (dynamic item in thongTinLopHocVm.DanhSachMentor)
                 {
                     listId.Add(item);
                 }
-                foreach (dynamic item in modelVm.DanhSachHocVien)
+                foreach (dynamic item in thongTinLopHocVm.DanhSachHocVien)
                 {
                     listId.Add(item);
                 }
 
+                // LẤY DANH SÁCH HỌC VIÊN
                 var dsNguoiDung = await _nguoiDungRepository.GetMultiByIdAsync(listId.ToList());
-                var dsNguoiDungVm = _mapper.Map<HashSet<NguoiDungViewModel>>(dsNguoiDung);
+                thongTinLopHocVm.DanhSachNguoiDung = _mapper.Map<List<NguoiDungViewModel>>(dsNguoiDung);
 
-                modelVm.DanhSachNguoiDung = dsNguoiDungVm;
-                return new ResponseEntity(StatusCodeConstants.OK, modelVm);
+                // LẤY DANH SÁCH KHÓA HỌC ĐÃ KÍCH HOẠT
+                List<KhoaHoc> dsKhoaHocKichHoat = await GetCourseActived(lopHoc.MaLoTrinh, lopHoc.NgayBatDau);
+                thongTinLopHocVm.DanhSachKhoaHoc = _mapper.Map<List<KhoaHocViewModel>>(dsKhoaHocKichHoat);
+
+                return new ResponseEntity(StatusCodeConstants.OK, thongTinLopHocVm);
             }
             catch (Exception ex)
             {
                 return new ResponseEntity(StatusCodeConstants.ERROR_SERVER, ex.Message);
             }
+        }
+
+        private async Task<List<KhoaHoc>> GetCourseActived(int maLoTrinh, DateTime ngayBatDau)
+        {
+            LoTrinh loTrinh = await _loTrinhRepository.GetSingleByIdAsync(maLoTrinh);
+
+            List<KhoaHoc> dsKhoaHoc = new List<KhoaHoc>();
+            if (loTrinh.DanhSachKhoaHoc != null)
+            {
+                // Convert string json thành mảng
+                List<dynamic> dsMaKhoaHoc = JsonConvert.DeserializeObject<List<dynamic>>(loTrinh.DanhSachKhoaHoc);
+                // Lấy danh sách khóa học theo mảng id
+                var listKhoaHoc = await _khoaHocRepository.GetMultiByIdAsync(dsMaKhoaHoc);
+                // Sắp xếp đúng thứ tự
+                foreach (dynamic idKhoaHoc in dsMaKhoaHoc)
+                {
+                    dsKhoaHoc.Add(listKhoaHoc.FirstOrDefault(x => x.Id == idKhoaHoc));
+                }
+            }
+
+            // KIỂM TRA XEM ĐẾN NGÀY KÍCH HOẠT CHƯA
+            int demNgay = 0;
+            int soNgayTuLucKhaiGiang = FuncUtilities.TinhKhoangCachNgay(ngayBatDau);
+            List<KhoaHoc> dsKhoaHocKichHoat = new List<KhoaHoc>();
+            foreach (KhoaHoc item in dsKhoaHoc)
+            {
+                demNgay += item.SoNgayKichHoat;
+                // Nếu là khóa học kích hoạt sẵn cho học viên
+                if (item.KichHoatSan && soNgayTuLucKhaiGiang >= -7)
+                {
+                    dsKhoaHocKichHoat.Add(item);
+                }
+                // Kiểm tra xem đã đến ngày kích hoạt chưa
+                else if (demNgay > soNgayTuLucKhaiGiang)
+                {
+                    break;
+                }
+                else
+                {
+                    dsKhoaHocKichHoat.Add(item);
+                }
+            }
+            return dsKhoaHocKichHoat;
         }
     }
 }

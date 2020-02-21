@@ -2,6 +2,9 @@
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Linq;
+using System.Net.Http;
+using System.Net;
+using Newtonsoft.Json.Linq;
 
 namespace SoloDevApp.Service.Utilities
 {
@@ -60,7 +63,6 @@ namespace SoloDevApp.Service.Utilities
             }
             return d;
         }
-
         public static DateTime ConvertStringToDate(string date = "")
         {
             DateTime d = new DateTime();
@@ -93,6 +95,13 @@ namespace SoloDevApp.Service.Utilities
                 dateString = date.ToString();
             return dateString;
         }
+        public static DateTime ConvertToTimeStamp(int unixTimeStamp)
+        {
+            // Unix timestamp is seconds past epoch
+            System.DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
+            dtDateTime = dtDateTime.AddSeconds(unixTimeStamp).ToLocalTime();
+            return dtDateTime;
+        }
         public static string BestLower(string input = "")
         {
             if (input == null)
@@ -122,6 +131,28 @@ namespace SoloDevApp.Service.Utilities
                 str2 = str2.Replace("--", "-").ToLower();
             }
             return str2.ToLower();
+        }
+
+        public static bool ReCaptchaPassed(string secret, string gRecaptchaResponse)
+        {
+            HttpClient httpClient = new HttpClient();
+            var res = httpClient.GetAsync($"https://www.google.com/recaptcha/api/siteverify?secret={secret}&response={gRecaptchaResponse}").Result;
+            if (res.StatusCode != HttpStatusCode.OK)
+                return false;
+
+            string JSONres = res.Content.ReadAsStringAsync().Result;
+            dynamic JSONdata = JObject.Parse(JSONres);
+            if (JSONdata.success != "true")
+                return false;
+
+            return true;
+        }
+
+        public static int TinhKhoangCachNgay(DateTime date)
+        {
+            DateTime dateNow = GetDateCurrent();
+            TimeSpan ts = dateNow - date;
+            return ts.Days;
         }
     }
 }

@@ -14,6 +14,7 @@ namespace SoloDevApp.Service.Services
 {
     public interface IKhoaHocService : IService<KhoaHoc, KhoaHocViewModel>
     {
+        Task<ResponseEntity> GetAllActiveAsync(dynamic id);
         Task<ResponseEntity> GetInfoByIdAsync(dynamic id);
         Task<ResponseEntity> AddChapterToCourseAsync(dynamic id, ChuongHocViewModel modelVm);
         Task<ResponseEntity> SortingAsync(dynamic id, List<int> dsChuongHoc);
@@ -65,6 +66,20 @@ namespace SoloDevApp.Service.Services
                 return new ResponseEntity(StatusCodeConstants.ERROR_SERVER, ex.Message);
             }
 
+        }
+
+        public async Task<ResponseEntity> GetAllActiveAsync(dynamic id)
+        {
+            try
+            {
+                var entities = await _khoaHocRepository.GetAllAsync();
+                var modelVm = _mapper.Map<KhoaHocViewModel>(entities);
+                return new ResponseEntity(StatusCodeConstants.OK, modelVm);
+            }
+            catch (Exception ex)
+            {
+                return new ResponseEntity(StatusCodeConstants.ERROR_SERVER, ex.Message);
+            }
         }
 
         public async Task<ResponseEntity> GetInfoByIdAsync(dynamic id)
