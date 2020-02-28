@@ -135,7 +135,12 @@ namespace SoloDevApp.Service.Services
                 {
                     if (file != null && file.Length != 0)
                     {
-                        var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/videos", file.FileName);
+                        string pathFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\videos");
+                        // Tạo folder nếu chưa tồn tại
+                        if (!Directory.Exists(pathFolder))
+                            Directory.CreateDirectory(pathFolder);
+
+                        var path = Path.Combine(pathFolder, file.FileName);
                         // Lưu tạm video vào máy
                         using (var stream = new FileStream(path, FileMode.Create))
                         {
@@ -148,9 +153,9 @@ namespace SoloDevApp.Service.Services
                         SaveVideoFTP(videoPath, file.FileName);
                         list.Add(file.FileName);
                         // Xóa video lưu tạm sau khi hoàn thành lưu video lên máy FTP
-                        if (File.Exists(videoPath))
+                        if (File.Exists(path))
                         {
-                            File.Delete(videoPath);
+                            File.Delete(path);
                         }
                     }
                 }

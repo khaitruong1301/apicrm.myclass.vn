@@ -45,6 +45,8 @@ namespace SoloDevApp.Api
             services.AddTransient<IBaiHocRepository, BaiHocRepository>();
             services.AddTransient<ILoaiBaiHocRepository, LoaiBaiHocRepository>();
             services.AddTransient<ICauHoiRepository, CauHoiRepository>();
+            services.AddTransient<IBaiTapRepository, BaiTapRepository>();
+            services.AddTransient<IBaiTapNopRepository, BaiTapNopRepository>();
 
             services.AddTransient<INguoiDungRepository, NguoiDungRepository>();
 
@@ -62,6 +64,8 @@ namespace SoloDevApp.Api
             services.AddTransient<IBaiHocService, BaiHocService>();
             services.AddTransient<ILoaiBaiHocService, LoaiBaiHocService>();
             services.AddTransient<ICauHoiService, CauHoiService>();
+            services.AddTransient<IBaiTapService, BaiTapService>();
+            services.AddTransient<IBaiTapNopService, BaiTapNopService>();
 
             services.AddTransient<INguoiDungService, NguoiDungService>();
 

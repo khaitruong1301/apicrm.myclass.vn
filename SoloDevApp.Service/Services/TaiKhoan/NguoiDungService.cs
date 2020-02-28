@@ -6,7 +6,6 @@ using SoloDevApp.Repository.Repositories;
 using SoloDevApp.Service.Constants;
 using SoloDevApp.Service.Helpers;
 using SoloDevApp.Service.Infrastructure;
-using SoloDevApp.Service.SignalR;
 using SoloDevApp.Service.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -90,7 +89,7 @@ namespace SoloDevApp.Service.Services
             try
             {
                 var columns = new List<KeyValuePair<string, dynamic>>();
-                foreach(string value in values)
+                foreach (string value in values)
                 {
                     columns.Add(new KeyValuePair<string, dynamic>(column, value));
                 }
@@ -99,7 +98,7 @@ namespace SoloDevApp.Service.Services
                 List<NguoiDungViewModel> modelVm = _mapper.Map<List<NguoiDungViewModel>>(entities);
                 return new ResponseEntity(StatusCodeConstants.OK, modelVm);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return new ResponseEntity(StatusCodeConstants.ERROR_SERVER, ex.Message);
             }
@@ -112,11 +111,11 @@ namespace SoloDevApp.Service.Services
                 // Lấy ra thông tin người dùng từ database dựa vào email
                 NguoiDung entity = await _nguoiDungRepository.GetByEmailAsync(modelVm.Email);
                 if (entity == null)// Nếu email sai
-                    return new ResponseEntity(StatusCodeConstants.BAD_REQUEST, modelVm, MessageConstants.SIGNIN_WRONG);
+                    return new ResponseEntity(StatusCodeConstants.NOT_FOUND, modelVm, MessageConstants.SIGNIN_WRONG);
                 // Kiểm tra mật khẩu có khớp không
                 if (!BCrypt.Net.BCrypt.Verify(modelVm.MatKhau, entity.MatKhau))
                     // Nếu password không khớp
-                    return new ResponseEntity(StatusCodeConstants.BAD_REQUEST, modelVm, MessageConstants.SIGNIN_WRONG);
+                    return new ResponseEntity(StatusCodeConstants.NOT_FOUND, modelVm, MessageConstants.SIGNIN_WRONG);
                 // Tạo token
                 string token = await GenerateToken(entity);
                 if (token == string.Empty)
@@ -135,9 +134,13 @@ namespace SoloDevApp.Service.Services
 
         public async Task<ResponseEntity> SignInFacebookAsync(DangNhapFacebookViewModel modelVm)
         {
+            string[] ERR_MESSAGE = { "Vui lòng nhập email bạn đã đăng ký!", "Email này đã được sử dụng cho tài khoản facebook khác!", "Email không chính xác!" };
+            string[] ERR_STATUS = { "EMAIL_ENTER", "EMAIL_EXISTS", "EMAIL_INCORRECT" };
+
             try
             {
                 await _lopHocRepository.EnableAsync();
+                await _lopHocRepository.DisableAsync();
 
                 NguoiDung entity = await _nguoiDungRepository.GetByFacebookAsync(modelVm.FacebookId);
                 if (entity != null) // Nếu FacebookId đúng => đăng nhập thành công
@@ -150,40 +153,40 @@ namespace SoloDevApp.Service.Services
 
                 // Nếu facebook id sai và email chưa nhập
                 if (string.IsNullOrEmpty(modelVm.Email))
-                    return new ResponseEntity(StatusCodeConstants.BAD_REQUEST, modelVm, "Vui lòng nhập email bạn đã đăng ký!");
+                    return new ResponseEntity(StatusCodeConstants.BAD_REQUEST, ERR_STATUS[0], ERR_MESSAGE[0]);
 
                 // Lấy ra thông tin người dùng từ database dựa vào email
                 entity = await _nguoiDungRepository.GetByEmailAsync(modelVm.Email);
-                if (entity == null)// Nếu email sai
-                    return new ResponseEntity(StatusCodeConstants.BAD_REQUEST, modelVm, MessageConstants.SIGNIN_ERROR);
-
-                // Email đúng FacebookId có tồn tại nhưng không khớp với facebook id đang đăng nhập
-                // Cái này để tránh trường hợp 1 email xài cho nhiều tài khoản
-                if (!string.IsNullOrEmpty(entity.FacebookId))
-                    return new ResponseEntity(StatusCodeConstants.BAD_REQUEST, modelVm, "Email này đã được sử dụng cho tài khoản facebook khác!");
-
-                // Kiểm tra xem email đã tồn tại trong bảng khách hàng chưa
-                //  - Nếu chưa có thông báo đăng nhập thất bại
-                //  - Nếu có thì tạo tài khoản cho user=> đăng nhập thành công
-                KhachHang khachHang = await _khachHangRepository.GetByEmailAsync(modelVm.Email);
-                if (khachHang == null)
-                    return new ResponseEntity(StatusCodeConstants.BAD_REQUEST, modelVm, MessageConstants.SIGNIN_ERROR);
-
-                ThongTinKHViewModel thongTinKHVm = _mapper.Map<ThongTinKHViewModel>(khachHang.ThongTinKH);
-                // Tạo tài khoản mới cho user
-                entity = new NguoiDung();
-                entity.Id = Guid.NewGuid().ToString();
-                entity.Email = thongTinKHVm.Email;
-                entity.MatKhau = BCrypt.Net.BCrypt.HashPassword("Cybersoft@123");
-                entity.HoTen = khachHang.TenKH;
-                entity.BiDanh = khachHang.BiDanh;
-                entity.SoDT = thongTinKHVm.SoDienThoai;
-                entity.Avatar = "/static/user-icon.png";
-                entity.MaNhomQuyen = "HOCVIEN";
-                // Thực hiện truy vấn thêm mới
-                entity = await _nguoiDungRepository.InsertAsync(entity);
                 if (entity == null)
-                    return new ResponseEntity(StatusCodeConstants.BAD_REQUEST, modelVm, MessageConstants.SIGNIN_ERROR);
+                {
+                    // Kiểm tra xem email đã tồn tại trong bảng khách hàng chưa
+                    //  - Nếu chưa có thông báo đăng nhập thất bại
+                    //  - Nếu có thì tạo tài khoản cho user=> đăng nhập thành công
+                    KhachHang khachHang = await _khachHangRepository.GetByEmailAsync(modelVm.Email);
+                    if (khachHang == null)
+                        return new ResponseEntity(StatusCodeConstants.BAD_REQUEST, ERR_STATUS[2], ERR_MESSAGE[2]);
+
+                    ThongTinKHViewModel thongTinKHVm = JsonConvert.DeserializeObject<ThongTinKHViewModel>(khachHang.ThongTinKH);
+                    // Tạo tài khoản mới cho user
+                    entity = new NguoiDung();
+                    entity.Id = Guid.NewGuid().ToString();
+                    entity.Email = thongTinKHVm.Email;
+                    entity.MatKhau = BCrypt.Net.BCrypt.HashPassword("Cybersoft@123");
+                    entity.HoTen = khachHang.TenKH;
+                    entity.BiDanh = khachHang.BiDanh;
+                    entity.SoDT = thongTinKHVm.SoDienThoai;
+                    entity.Avatar = "/static/user-icon.png";
+                    entity.MaNhomQuyen = "HOCVIEN";
+                    // Thực hiện truy vấn thêm mới
+                    entity = await _nguoiDungRepository.InsertAsync(entity);
+                    if (entity == null)
+                        return new ResponseEntity(StatusCodeConstants.BAD_REQUEST, modelVm, MessageConstants.SIGNIN_ERROR);
+
+                }
+                // Email đúng, FacebookId có tồn tại nhưng không khớp với facebook id đang đăng nhập
+                // Cái này để tránh trường hợp 1 email xài cho nhiều tài khoản
+                else if (!string.IsNullOrEmpty(entity.FacebookId))
+                    return new ResponseEntity(StatusCodeConstants.BAD_REQUEST, ERR_STATUS[1], ERR_MESSAGE[1]);
 
                 // Lưu FacebookId vào database
                 entity.FacebookId = modelVm.FacebookId;
@@ -194,9 +197,9 @@ namespace SoloDevApp.Service.Services
                 NguoiDungViewModel result = _mapper.Map<NguoiDungViewModel>(entity);
                 return new ResponseEntity(StatusCodeConstants.OK, result, MessageConstants.SIGNIN_SUCCESS);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                return new ResponseEntity(StatusCodeConstants.BAD_REQUEST, modelVm, MessageConstants.SIGNIN_ERROR);
+                return new ResponseEntity(StatusCodeConstants.BAD_REQUEST, ex.Message, MessageConstants.SIGNIN_ERROR);
             }
         }
 
@@ -254,7 +257,7 @@ namespace SoloDevApp.Service.Services
                 return new ResponseEntity(StatusCodeConstants.BAD_REQUEST, modelVm, MessageConstants.SIGNUP_ERROR);
             }
         }
-        
+
         public async Task<ResponseEntity> UpdateUserAsync(string id, SuaNguoiDungViewModel modelVm)
         {
             try

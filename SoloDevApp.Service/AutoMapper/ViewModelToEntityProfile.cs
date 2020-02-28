@@ -54,6 +54,10 @@ namespace SoloDevApp.Service.AutoMapper
                                 m => m.MapFrom(modelVm => JsonConvert.SerializeObject(modelVm.DanhSachCauHoi)));
             CreateMap<LoaiBaiHocViewModel, LoaiBaiHoc>();
 
+            /*=========== BÀI TẬP =============*/
+            CreateMap<BaiTapViewModel, BaiTap>();
+            CreateMap<BaiTapNopViewModel, BaiTapNop>();
+
             /*=========== CÂU HỎI =============*/
             CreateMap<CauHoiViewModel, CauHoi>()
                 .ForMember(entity => entity.CauTraLoi,

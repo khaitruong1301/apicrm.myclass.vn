@@ -25,15 +25,18 @@ namespace SoloDevApp.Service.Services
         IKhoaHocRepository _khoaHocRepository;
         IChuongHocRepository _chuongHocRepository;
         IBaiHocRepository _baiHocRepository;
+        ILoTrinhRepository _loTrinhRepository;
         public KhoaHocService(IKhoaHocRepository khoaHocRepository,
             IChuongHocRepository chuongHocRepository,
             IBaiHocRepository baiHocRepository,
+            ILoTrinhRepository loTrinhRepository,
             IMapper mapper)
             : base(khoaHocRepository, mapper)
         {
             _khoaHocRepository = khoaHocRepository;
             _chuongHocRepository = chuongHocRepository;
             _baiHocRepository = baiHocRepository;
+            _loTrinhRepository = loTrinhRepository;
         }
 
         public async Task<ResponseEntity> AddChapterToCourseAsync(dynamic id, ChuongHocViewModel modelVm)
@@ -137,6 +140,41 @@ namespace SoloDevApp.Service.Services
                 return new ResponseEntity(StatusCodeConstants.OK, dsChuongHoc, MessageConstants.UPDATE_SUCCESS);
             }
             catch(Exception ex)
+            {
+                return new ResponseEntity(StatusCodeConstants.ERROR_SERVER, ex.Message);
+            }
+        }
+
+        public override async Task<ResponseEntity> DeleteByIdAsync(List<dynamic> listId)
+        {
+            try
+            {
+                IEnumerable<KhoaHoc> dsKhoaHoc = await _khoaHocRepository.GetMultiByIdAsync(listId);
+
+                if (await _khoaHocRepository.DeleteByIdAsync(listId) == 0)
+                    return new ResponseEntity(StatusCodeConstants.BAD_REQUEST, listId, MessageConstants.DELETE_ERROR);
+
+                // Xóa id khóa học khỏi danh sách khóa học của lộ trình
+                foreach (KhoaHoc khoaHoc in dsKhoaHoc)
+                {
+                    if (khoaHoc.DanhSachLoTrinh != null)
+                    {
+                        List<dynamic> dsMaLoTrinh = JsonConvert.DeserializeObject<List<dynamic>>(khoaHoc.DanhSachLoTrinh);
+                        IEnumerable<LoTrinh> dsLoTrinh = await _loTrinhRepository.GetMultiByIdAsync(dsMaLoTrinh);
+                        List<LoTrinhViewModel> dsLoTrinhVm = _mapper.Map<List<LoTrinhViewModel>>(dsLoTrinh);
+                        foreach(LoTrinhViewModel loTrinhVm in dsLoTrinhVm)
+                        {
+                            loTrinhVm.DanhSachKhoaHoc.Remove(khoaHoc.Id);
+                            LoTrinh loTrinh = _mapper.Map<LoTrinh>(loTrinhVm);
+                            await _loTrinhRepository.UpdateAsync(loTrinh.Id, loTrinh);
+                        }
+                    }
+                }
+
+                return new ResponseEntity(StatusCodeConstants.OK, listId, MessageConstants.DELETE_SUCCESS);
+
+            }
+            catch (Exception ex)
             {
                 return new ResponseEntity(StatusCodeConstants.ERROR_SERVER, ex.Message);
             }

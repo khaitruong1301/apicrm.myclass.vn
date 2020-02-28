@@ -8,7 +8,7 @@ namespace SoloDevApp.Service.ViewModels
         public string TenKhoaHoc { get; set; }
         public string BiDanh { get; set; }
         public string HinhAnh { get; set; }
-        public string VideoGioiThieu { get; set; }
+        public string TaiLieu { get; set; }
         public string MoTa { get; set; }
         public HashSet<int> DanhSachLoTrinh { get; set; }
         public List<int> DanhSachChuongHoc { get; set; }

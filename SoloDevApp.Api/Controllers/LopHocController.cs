@@ -30,6 +30,12 @@ namespace SoloDevApp.Api.Controllers
             return await _lopHocService.GetSingleByIdAsync(id);
         }
 
+        [HttpGet("byuser/{userId}")]
+        public async Task<IActionResult> GetByUser(string userId)
+        {
+            return await _lopHocService.GetByUserIdAsync(userId);
+        }
+
         [HttpGet("info/{id}")]
         public async Task<IActionResult> GetInfo(int id)
         {

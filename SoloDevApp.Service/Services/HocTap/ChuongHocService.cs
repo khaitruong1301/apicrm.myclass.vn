@@ -20,13 +20,16 @@ namespace SoloDevApp.Service.Services
     {
         IChuongHocRepository _chuongHocRepository;
         IBaiHocRepository _baiHocRepository;
+        IKhoaHocRepository _khoaHocRepository;
         public ChuongHocService(IChuongHocRepository chuongHocRepository,
             IBaiHocRepository baiHocRepository,
+            IKhoaHocRepository khoaHocRepository,
             IMapper mapper)
             : base(chuongHocRepository, mapper)
         {
             _chuongHocRepository = chuongHocRepository;
             _baiHocRepository = baiHocRepository;
+            _khoaHocRepository = khoaHocRepository;
         }
 
         public async Task<ResponseEntity> AddLessonToChapterAsync(dynamic id, BaiHocViewModel modelVm)
@@ -75,6 +78,35 @@ namespace SoloDevApp.Service.Services
 
                 await _chuongHocRepository.UpdateAsync(id, chuongHoc);
                 return new ResponseEntity(StatusCodeConstants.OK, dsBaiHoc, MessageConstants.UPDATE_SUCCESS);
+            }
+            catch (Exception ex)
+            {
+                return new ResponseEntity(StatusCodeConstants.ERROR_SERVER, ex.Message);
+            }
+        }
+
+        public override async Task<ResponseEntity> DeleteByIdAsync(List<dynamic> listId)
+        {
+            try
+            {
+                IEnumerable<ChuongHoc> dsChuongHoc = await _chuongHocRepository.GetMultiByIdAsync(listId);
+
+                if (await _chuongHocRepository.DeleteByIdAsync(listId) == 0)
+                    return new ResponseEntity(StatusCodeConstants.BAD_REQUEST, listId, MessageConstants.DELETE_ERROR);
+
+                // Xóa id khỏi danh sách chương học của khóa học
+                foreach (ChuongHoc chuongHoc in dsChuongHoc)
+                {
+                    KhoaHoc khoaHoc = await _khoaHocRepository.GetSingleByIdAsync(chuongHoc.MaKhoaHoc);
+                    KhoaHocViewModel khoaHocVm = _mapper.Map<KhoaHocViewModel>(khoaHoc);
+                    khoaHocVm.DanhSachChuongHoc.Remove(chuongHoc.Id);
+
+                    khoaHoc = _mapper.Map<KhoaHoc>(khoaHocVm);
+                    await _khoaHocRepository.UpdateAsync(khoaHoc.Id, khoaHoc);
+                }
+
+                return new ResponseEntity(StatusCodeConstants.OK, listId, MessageConstants.DELETE_SUCCESS);
+                
             }
             catch (Exception ex)
             {

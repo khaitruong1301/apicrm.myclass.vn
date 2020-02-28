@@ -5,6 +5,7 @@ using SoloDevApp.Service.Constants;
 using SoloDevApp.Service.Infrastructure;
 using SoloDevApp.Service.ViewModels;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace SoloDevApp.Service.Services
@@ -18,13 +19,16 @@ namespace SoloDevApp.Service.Services
     {
         IBaiHocRepository _baiHocRepository;
         ICauHoiRepository _cauHoiRepository;
+        IChuongHocRepository _chuongHocRepository;
         public BaiHocService(IBaiHocRepository baiHocRepository,
             ICauHoiRepository cauHoiRepository,
+            IChuongHocRepository chuongHocRepository,
             IMapper mapper)
             : base(baiHocRepository, mapper)
         {
             _baiHocRepository = baiHocRepository;
             _cauHoiRepository = cauHoiRepository;
+            _chuongHocRepository = chuongHocRepository;
         }
 
         public async Task<ResponseEntity> AddQuestionToLessonAsync(dynamic id, CauHoiViewModel modelVm)
@@ -51,6 +55,35 @@ namespace SoloDevApp.Service.Services
 
                 modelVm.Id = cauHoi.Id;
                 return new ResponseEntity(StatusCodeConstants.OK, modelVm, MessageConstants.INSERT_SUCCESS);
+            }
+            catch (Exception ex)
+            {
+                return new ResponseEntity(StatusCodeConstants.ERROR_SERVER, ex.Message);
+            }
+        }
+
+        public override async Task<ResponseEntity> DeleteByIdAsync(List<dynamic> listId)
+        {
+            try
+            {
+                IEnumerable<BaiHoc> dsBaiHoc = await _baiHocRepository.GetMultiByIdAsync(listId);
+
+                if (await _baiHocRepository.DeleteByIdAsync(listId) == 0)
+                    return new ResponseEntity(StatusCodeConstants.BAD_REQUEST, listId, MessageConstants.DELETE_ERROR);
+
+                // Xóa id khỏi danh sách bài học của chương học
+                foreach (BaiHoc baiHoc in dsBaiHoc)
+                {
+                    ChuongHoc chuongHoc = await _chuongHocRepository.GetSingleByIdAsync(baiHoc.MaChuongHoc);
+                    ChuongHocViewModel chuongHocVm = _mapper.Map<ChuongHocViewModel>(chuongHoc);
+                    chuongHocVm.DanhSachBaiHoc.Remove(baiHoc.Id);
+
+                    chuongHoc = _mapper.Map<ChuongHoc>(chuongHocVm);
+                    await _chuongHocRepository.UpdateAsync(chuongHoc.Id, chuongHoc);
+                }
+
+                return new ResponseEntity(StatusCodeConstants.OK, listId, MessageConstants.DELETE_SUCCESS);
+
             }
             catch (Exception ex)
             {

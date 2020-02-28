@@ -93,6 +93,7 @@ namespace SoloDevApp.Api.Controllers
             }
         }
 
+        // LẤY URL VIDEO FTP
         [HttpGet("ftp-video/{fileName}")]
         public async Task<IActionResult> FtpVideo(string fileName)
         {

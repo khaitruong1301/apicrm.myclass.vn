@@ -32,6 +32,8 @@ namespace SoloDevApp.Repository.Infrastructure
 
         Task<T> GetSingleByConditionAsync(string column, dynamic value);
 
+        Task<IEnumerable<T>> GetMultiByConditionAsync(string column, dynamic value);
+
         Task<int> DeleteByIdAsync(List<dynamic> listId);
 
         Task<bool> CheckValidByConditionAsync(string column, dynamic value);
@@ -252,6 +254,26 @@ namespace SoloDevApp.Repository.Infrastructure
             }
         }
 
+        public async Task<IEnumerable<T>> GetMultiByConditionAsync(string column, dynamic value)
+        {
+            var columns = new List<KeyValuePair<string, dynamic>>();
+            columns.Add(new KeyValuePair<string, dynamic>(column, value));
+            try
+            {
+                using (var conn = CreateConnection())
+                {
+                    var parameters = new DynamicParameters();
+                    parameters.Add("@tableName", _table);
+                    parameters.Add("@listColumn", JsonConvert.SerializeObject(columns));
+                    return await conn.QueryAsync<T>("GET_MULTI_DATA", parameters, null, null, CommandType.StoredProcedure);
+                }
+            }
+            catch (SqlException ex)
+            {
+                throw ex;
+            }
+        }
+
         public virtual async Task<int> DeleteByIdAsync(List<dynamic> listId)
         {
             try
@@ -312,7 +334,7 @@ namespace SoloDevApp.Repository.Infrastructure
             for (int i = 1; i < props.Length; i++)
             {
                 var value = props[i].GetValue(entity);
-                if(value != null)
+                if(value != null && value.ToString() != "[]")
                     columns.Add(new KeyValuePair<string, dynamic>(props[i].Name, value));
             }
             return JsonConvert.SerializeObject(columns);
