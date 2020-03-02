@@ -164,7 +164,7 @@ namespace SoloDevApp.Service.Services
                         List<LoTrinhViewModel> dsLoTrinhVm = _mapper.Map<List<LoTrinhViewModel>>(dsLoTrinh);
                         foreach(LoTrinhViewModel loTrinhVm in dsLoTrinhVm)
                         {
-                            loTrinhVm.DanhSachKhoaHoc.Remove(khoaHoc.Id);
+                            loTrinhVm.DanhSachKhoaHoc.RemoveAll(x => x == khoaHoc.Id);
                             LoTrinh loTrinh = _mapper.Map<LoTrinh>(loTrinhVm);
                             await _loTrinhRepository.UpdateAsync(loTrinh.Id, loTrinh);
                         }

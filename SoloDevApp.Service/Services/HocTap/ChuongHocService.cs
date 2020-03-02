@@ -5,6 +5,7 @@ using SoloDevApp.Service.Constants;
 using SoloDevApp.Service.Infrastructure;
 using SoloDevApp.Service.ViewModels;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -13,7 +14,7 @@ namespace SoloDevApp.Service.Services
     public interface IChuongHocService : IService<ChuongHoc, ChuongHocViewModel>
     {
         Task<ResponseEntity> AddLessonToChapterAsync(dynamic id, BaiHocViewModel modelVm);
-        Task<ResponseEntity> SortingAsync(dynamic id, List<int> dsBaiHoc);
+        Task<ResponseEntity> SortingAsync(dynamic id, List<dynamic> dsBaiHoc);
     }
 
     public class ChuongHocService : ServiceBase<ChuongHoc, ChuongHocViewModel>, IChuongHocService
@@ -63,7 +64,7 @@ namespace SoloDevApp.Service.Services
             }
         }
 
-        public async Task<ResponseEntity> SortingAsync(dynamic id, List<int> dsBaiHoc)
+        public async Task<ResponseEntity> SortingAsync(dynamic id, List<dynamic> dsBaiHoc)
         {
             try
             {
@@ -77,7 +78,17 @@ namespace SoloDevApp.Service.Services
                 chuongHoc = _mapper.Map<ChuongHoc>(chuongHocVm);
 
                 await _chuongHocRepository.UpdateAsync(id, chuongHoc);
-                return new ResponseEntity(StatusCodeConstants.OK, dsBaiHoc, MessageConstants.UPDATE_SUCCESS);
+
+                IEnumerable<BaiHoc> listBaiHoc = await _baiHocRepository.GetMultiByIdAsync(dsBaiHoc);
+                List<BaiHocViewModel> listBaiHocVm = _mapper.Map<List<BaiHocViewModel>>(listBaiHoc);
+
+                List<BaiHocViewModel> mangKetQua = new List<BaiHocViewModel>();
+                foreach (dynamic item in dsBaiHoc)
+                {
+                    mangKetQua.Add(listBaiHocVm.FirstOrDefault(x => x.Id == item));
+                }
+
+                return new ResponseEntity(StatusCodeConstants.OK, mangKetQua, MessageConstants.UPDATE_SUCCESS);
             }
             catch (Exception ex)
             {
@@ -99,7 +110,7 @@ namespace SoloDevApp.Service.Services
                 {
                     KhoaHoc khoaHoc = await _khoaHocRepository.GetSingleByIdAsync(chuongHoc.MaKhoaHoc);
                     KhoaHocViewModel khoaHocVm = _mapper.Map<KhoaHocViewModel>(khoaHoc);
-                    khoaHocVm.DanhSachChuongHoc.Remove(chuongHoc.Id);
+                    khoaHocVm.DanhSachChuongHoc.RemoveAll(x => x == chuongHoc.Id);
 
                     khoaHoc = _mapper.Map<KhoaHoc>(khoaHocVm);
                     await _khoaHocRepository.UpdateAsync(khoaHoc.Id, khoaHoc);

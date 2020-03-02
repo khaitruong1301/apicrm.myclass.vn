@@ -76,7 +76,7 @@ namespace SoloDevApp.Service.Services
                 {
                     ChuongHoc chuongHoc = await _chuongHocRepository.GetSingleByIdAsync(baiHoc.MaChuongHoc);
                     ChuongHocViewModel chuongHocVm = _mapper.Map<ChuongHocViewModel>(chuongHoc);
-                    chuongHocVm.DanhSachBaiHoc.Remove(baiHoc.Id);
+                    chuongHocVm.DanhSachBaiHoc.RemoveAll(x => x == baiHoc.Id);
 
                     chuongHoc = _mapper.Map<ChuongHoc>(chuongHocVm);
                     await _chuongHocRepository.UpdateAsync(chuongHoc.Id, chuongHoc);

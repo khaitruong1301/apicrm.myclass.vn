@@ -68,7 +68,7 @@ namespace SoloDevApp.Service.AutoMapper
             /*=========== CHƯƠNG HỌC =============*/
             CreateMap<ChuongHoc, ChuongHocViewModel>()
                 .ForMember(modelVm => modelVm.DanhSachBaiHoc,
-                                m => m.MapFrom(entity => JsonConvert.DeserializeObject<List<int>>(entity.DanhSachBaiHoc)));
+                                m => m.MapFrom(entity => JsonConvert.DeserializeObject<List<dynamic>>(entity.DanhSachBaiHoc)));
             CreateMap<ChuongHoc, ThongTinChuongHocViewModel>()
                 .ForMember(modelVm => modelVm.DanhSachBaiHoc,
                                 m => m.MapFrom(entity => JsonConvert.DeserializeObject<List<dynamic>>(entity.DanhSachBaiHoc)));

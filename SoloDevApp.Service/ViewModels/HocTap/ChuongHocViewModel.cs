@@ -7,7 +7,7 @@ namespace SoloDevApp.Service.ViewModels
         public int Id { get; set; }
         public string TenChuong { get; set; }
         public string BiDanh { get; set; }
-        public List<int> DanhSachBaiHoc { get; set; }
+        public List<dynamic> DanhSachBaiHoc { get; set; }
         public int MaKhoaHoc { get; set; }
     }
 }

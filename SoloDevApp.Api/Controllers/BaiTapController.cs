@@ -41,6 +41,12 @@ namespace SoloDevApp.Api.Controllers
             return await _baiTapService.GetByClassAndUserIdAsync(classId, userId);
         }
 
+        //[HttpGet("{classId}/{exercire}")]
+        //public async Task<IActionResult> GetByClassAndExercireId(int classId, string userId)
+        //{
+        //    return await _baiTapService.GetByClassAndExercireIdAsync(classId, userId);
+        //}
+
         [HttpGet("paging")]
         public async Task<IActionResult> GetPaging(int page, int size, string keywords = "")
         {

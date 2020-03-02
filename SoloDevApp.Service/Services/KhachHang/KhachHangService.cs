@@ -153,7 +153,7 @@ namespace SoloDevApp.Service.Services
 
                 // Cập nhật lại danh sách lớp học cho người dùng
                 HashSet<string> dsLopHoc = new HashSet<string>();
-                if(entity.DanhSachLopHoc != null)
+                if(!string.IsNullOrEmpty(entity.DanhSachLopHoc))
                 {
                     dsLopHoc = JsonConvert.DeserializeObject<HashSet<string>>(entity.DanhSachLopHoc);
                 }

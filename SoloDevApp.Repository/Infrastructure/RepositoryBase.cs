@@ -29,6 +29,7 @@ namespace SoloDevApp.Repository.Infrastructure
         Task<T> GetSingleByListConditionAsync(List<KeyValuePair<string, dynamic>> columns);
 
         Task<IEnumerable<T>> GetMultiByListConditionAsync(List<KeyValuePair<string, dynamic>> columns);
+        Task<IEnumerable<T>> GetMultiByListConditionAndAsync(List<KeyValuePair<string, dynamic>> columns);
 
         Task<T> GetSingleByConditionAsync(string column, dynamic value);
 
@@ -226,6 +227,24 @@ namespace SoloDevApp.Repository.Infrastructure
                     parameters.Add("@tableName", _table);
                     parameters.Add("@listColumn", JsonConvert.SerializeObject(columns));
                     return await conn.QueryAsync<T>("GET_MULTI_DATA", parameters, null, null, CommandType.StoredProcedure);
+                }
+            }
+            catch (SqlException ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<IEnumerable<T>> GetMultiByListConditionAndAsync(List<KeyValuePair<string, dynamic>> columns)
+        {
+            try
+            {
+                using (var conn = CreateConnection())
+                {
+                    var parameters = new DynamicParameters();
+                    parameters.Add("@tableName", _table);
+                    parameters.Add("@listColumn", JsonConvert.SerializeObject(columns));
+                    return await conn.QueryAsync<T>("GET_MULTI_DATA_AND", parameters, null, null, CommandType.StoredProcedure);
                 }
             }
             catch (SqlException ex)

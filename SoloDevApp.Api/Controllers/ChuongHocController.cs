@@ -55,7 +55,7 @@ namespace SoloDevApp.Api.Controllers
         }
 
         [HttpPut("sorting/{id}")]
-        public async Task<IActionResult> Sorting(int id, [FromBody] List<int> dsBaiHoc)
+        public async Task<IActionResult> Sorting(int id, [FromBody] List<dynamic> dsBaiHoc)
         {
             return await _chuongHocService.SortingAsync(id, dsBaiHoc);
         }
