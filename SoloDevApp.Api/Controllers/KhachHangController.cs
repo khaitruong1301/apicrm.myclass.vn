@@ -31,9 +31,9 @@ namespace SoloDevApp.Api.Controllers
         }
 
         [HttpGet("paging")]
-        public async Task<IActionResult> GetPaging(int page, int size, string keywords = "")
+        public async Task<IActionResult> GetPaging(int page, int size, string keywords = "", string filter = "")
         {
-            return await _khachHangService.GetPagingAsync(page, size, keywords);
+            return await _khachHangService.GetPagingAsync(page, size, keywords, filter);
         }
 
         [HttpGet("{id}")]

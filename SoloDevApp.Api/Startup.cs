@@ -47,10 +47,12 @@ namespace SoloDevApp.Api
             services.AddTransient<ICauHoiRepository, CauHoiRepository>();
             services.AddTransient<IBaiTapRepository, BaiTapRepository>();
             services.AddTransient<IBaiTapNopRepository, BaiTapNopRepository>();
+            services.AddTransient<IChuyenLopRepository, ChuyenLopRepository>();
 
             services.AddTransient<INguoiDungRepository, NguoiDungRepository>();
 
             services.AddTransient<IKhachHangRepository, KhachHangRepository>();
+            services.AddTransient<IHocPhiRepository, HocPhiRepository>();
 
             // ==================== SERVICE ====================
             services.AddTransient<IQuyenService, QuyenService>();
@@ -66,10 +68,12 @@ namespace SoloDevApp.Api
             services.AddTransient<ICauHoiService, CauHoiService>();
             services.AddTransient<IBaiTapService, BaiTapService>();
             services.AddTransient<IBaiTapNopService, BaiTapNopService>();
+            services.AddTransient<IChuyenLopService, ChuyenLopService>();
 
             services.AddTransient<INguoiDungService, NguoiDungService>();
 
             services.AddTransient<IKhachHangService, KhachHangService>();
+            services.AddTransient<IHocPhiService, HocPhiService>();
 
             services.AddTransient<IFileService, FileService>();
             services.AddTransient<IUploadService, UploadService>();

@@ -14,5 +14,6 @@
         public string MaNguoiTuVan { get; set; }
         public string MaNguonGioiThieu { get; set; }
         public string MaLoaiNguoiDung { get; set; }
+        public bool DaNhapForm { get; set; }
     }
 }

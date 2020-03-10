@@ -166,6 +166,10 @@ namespace SoloDevApp.Service.Services
                         {
                             loTrinhVm.DanhSachKhoaHoc.RemoveAll(x => x == khoaHoc.Id);
                             LoTrinh loTrinh = _mapper.Map<LoTrinh>(loTrinhVm);
+                            if (loTrinhVm.DanhSachKhoaHoc.Count == 0)
+                            {
+                                loTrinh.DanhSachKhoaHoc = "";
+                            }
                             await _loTrinhRepository.UpdateAsync(loTrinh.Id, loTrinh);
                         }
                     }

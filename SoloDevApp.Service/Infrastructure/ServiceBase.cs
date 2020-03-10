@@ -17,7 +17,7 @@ namespace SoloDevApp.Service.Infrastructure
 
         Task<ResponseEntity> GetAllAsync();
 
-        Task<ResponseEntity> GetPagingAsync(int pageIndex, int pageSize, string keywords);
+        Task<ResponseEntity> GetPagingAsync(int pageIndex, int pageSize, string keywords, string filter = "");
 
         Task<ResponseEntity> GetMultiByIdAsync(List<dynamic> listId);
 
@@ -51,11 +51,11 @@ namespace SoloDevApp.Service.Infrastructure
             }
         }
 
-        public virtual async Task<ResponseEntity> GetPagingAsync(int pageIndex, int pageSize, string keywords)
+        public virtual async Task<ResponseEntity> GetPagingAsync(int pageIndex, int pageSize, string keywords, string filter = "")
         {
             try
             {
-                PagingResult<T> entity = await _repository.GetPagingAsync(pageIndex, pageSize, keywords);
+                PagingResult<T> entity = await _repository.GetPagingAsync(pageIndex, pageSize, keywords, filter);
                 var modelVm = new PagingResult<V>();
                 modelVm.Items = _mapper.Map<IEnumerable<V>>(entity.Items);
                 modelVm.PageIndex = entity.PageIndex;

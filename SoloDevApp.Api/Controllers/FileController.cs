@@ -93,6 +93,20 @@ namespace SoloDevApp.Api.Controllers
             }
         }
 
+        [HttpDelete("delete-ftp-video")]
+        public async Task<IActionResult> DeleteFtpVideo(string fileName)
+        {
+            try
+            {
+                await _fileService.DeleteVideoFTPAsync(fileName);
+                return Ok(fileName);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         // LẤY URL VIDEO FTP
         [HttpGet("ftp-video/{fileName}")]
         public async Task<IActionResult> FtpVideo(string fileName)

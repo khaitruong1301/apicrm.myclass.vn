@@ -29,11 +29,13 @@ namespace SoloDevApp.Service.Services
         private readonly IKhachHangRepository _khachHangRepository;
         private readonly ILopHocRepository _lopHocRepository;
         private readonly INguoiDungRepository _nguoiDungRepository;
+        private readonly IHocPhiRepository _hocPhiRepository;
         private readonly IAppSettings _appSettings;
 
         public KhachHangService(IKhachHangRepository khachHangRepository,
             ILopHocRepository lopHocRepository,
             INguoiDungRepository nguoiDungRepository,
+            IHocPhiRepository hocPhiRepository,
             IAppSettings appSettings,
             IMapper mapper)
             : base(khachHangRepository, mapper)
@@ -41,7 +43,35 @@ namespace SoloDevApp.Service.Services
             _lopHocRepository = lopHocRepository;
             _nguoiDungRepository = nguoiDungRepository;
             _khachHangRepository = khachHangRepository;
+            _hocPhiRepository = hocPhiRepository;
             _appSettings = appSettings;
+        }
+
+        public override async Task<ResponseEntity> InsertAsync(KhachHangViewModel modelVm)
+        {
+            try
+            {
+                KhachHang entity = _mapper.Map<KhachHang>(modelVm);
+                entity = await _khachHangRepository.InsertAsync(entity);
+
+                HocPhiViewModel hocPhiVm = new HocPhiViewModel();
+                if (modelVm.MaTrangThaiKH == 2)
+                {
+                    hocPhiVm = modelVm.HocPhi;
+                    hocPhiVm.MaKH = entity.Id;
+
+                    HocPhi hocPhi = _mapper.Map<HocPhi>(hocPhiVm);
+                    await _hocPhiRepository.InsertAsync(hocPhi);
+                }
+
+                modelVm = _mapper.Map<KhachHangViewModel>(entity);
+                modelVm.HocPhi = hocPhiVm;
+                return new ResponseEntity(StatusCodeConstants.CREATED, modelVm, MessageConstants.INSERT_SUCCESS);
+            }
+            catch (Exception ex)
+            {
+                return new ResponseEntity(StatusCodeConstants.ERROR_SERVER, ex.Message);
+            }
         }
 
         public override async Task<ResponseEntity> UpdateAsync(dynamic id, KhachHangViewModel modelVm)
@@ -188,6 +218,7 @@ namespace SoloDevApp.Service.Services
                 khachHangVm.ThongTinKH = modelVm;
 
                 khachHang = _mapper.Map<KhachHang>(khachHangVm);
+                khachHang.DaNhapForm = true;
                 await _khachHangRepository.UpdateAsync(id, khachHang);
                 return new ResponseEntity(StatusCodeConstants.OK, null, MessageConstants.UPDATE_SUCCESS);
             }

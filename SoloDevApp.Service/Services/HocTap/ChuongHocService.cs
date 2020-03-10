@@ -113,6 +113,10 @@ namespace SoloDevApp.Service.Services
                     khoaHocVm.DanhSachChuongHoc.RemoveAll(x => x == chuongHoc.Id);
 
                     khoaHoc = _mapper.Map<KhoaHoc>(khoaHocVm);
+                    if (khoaHocVm.DanhSachChuongHoc.Count == 0)
+                    {
+                        khoaHoc.DanhSachChuongHoc = "";
+                    }
                     await _khoaHocRepository.UpdateAsync(khoaHoc.Id, khoaHoc);
                 }
 

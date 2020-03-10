@@ -90,6 +90,9 @@ namespace SoloDevApp.Service.AutoMapper
                 .ForMember(modelVm => modelVm.CauHoiLienQuan,
                                 m => m.MapFrom(entity => JsonConvert.DeserializeObject<List<CauHoiLienQuanViewModel>>(entity.CauHoiLienQuan)));
 
+            /*=========== CHUYỂN LỚP =============*/
+            CreateMap<ChuyenLop, ChuyenLopViewModel>();
+
             /*=========== TÀI KHOẢN =============*/
             CreateMap<NguoiDung, NguoiDungViewModel>();
 
@@ -99,7 +102,8 @@ namespace SoloDevApp.Service.AutoMapper
                                 m => m.MapFrom(entity => JsonConvert.DeserializeObject<ThongTinKHViewModel>(entity.ThongTinKH)))
                 .ForMember(modelVm => modelVm.DiaChi,
                                 m => m.MapFrom(entity => JsonConvert.DeserializeObject<DiaChiViewModel>(entity.DiaChi)));
-            
+            CreateMap<HocPhi, HocPhiViewModel>();
+
         }
     }
 }

@@ -8,6 +8,7 @@ using SoloDevApp.Service.Helpers;
 using SoloDevApp.Service.Infrastructure;
 using SoloDevApp.Service.ViewModels;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net.Http;
@@ -270,6 +271,28 @@ namespace SoloDevApp.Service.Services
                 await _nguoiDungRepository.UpdateAsync(id, entity);
 
                 return new ResponseEntity(StatusCodeConstants.OK, modelVm, MessageConstants.UPDATE_SUCCESS);
+            }
+            catch (Exception ex)
+            {
+                return new ResponseEntity(StatusCodeConstants.ERROR_SERVER, ex.Message);
+            }
+        }
+
+        public override async Task<ResponseEntity> GetSingleByIdAsync(dynamic id)
+        {
+            try
+            {
+                var entity = await _nguoiDungRepository.GetSingleByIdAsync(id);
+                if (entity == null)
+                    return new ResponseEntity(StatusCodeConstants.NOT_FOUND);
+
+                NguoiDungViewModel modelVm = _mapper.Map<NguoiDungViewModel>(entity);
+                if(modelVm.DanhSachLopHoc != null)
+                {
+                    List<dynamic> dsMaLopHoc = JsonConvert.DeserializeObject<List<dynamic>>(modelVm.DanhSachLopHoc);
+                    modelVm.ThongTinLopHoc = (await _lopHocRepository.GetMultiByListIdAsync(dsMaLopHoc)).ToList();
+                }
+                return new ResponseEntity(StatusCodeConstants.OK, modelVm);
             }
             catch (Exception ex)
             {

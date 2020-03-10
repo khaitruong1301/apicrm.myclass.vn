@@ -16,6 +16,7 @@ namespace SoloDevApp.Service.Services
         Task<List<string>> UploadImageAsync(IFormFileCollection files);
         Task<List<string>> UploadVideoAsync(IFormFileCollection files);
         Task<List<string>> UploadVideoFTPAsync(IFormFileCollection files);
+        Task DeleteVideoFTPAsync(string fileName);
         Task<string> GetUrlFTPVideoAsync(string fileName);
         Task<string> UploadCmndAsync(IFormFile file);
     }
@@ -136,22 +137,24 @@ namespace SoloDevApp.Service.Services
                     if (file != null && file.Length != 0)
                     {
                         string pathFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\videos");
+                        string fileName = $"{DateTime.Now.ToString("dd-MM-yyyy-hh-mm-ss")}-{file.FileName}";
+
                         // Tạo folder nếu chưa tồn tại
                         if (!Directory.Exists(pathFolder))
                             Directory.CreateDirectory(pathFolder);
 
-                        var path = Path.Combine(pathFolder, file.FileName);
+                        var path = Path.Combine(pathFolder, fileName);
                         // Lưu tạm video vào máy
                         using (var stream = new FileStream(path, FileMode.Create))
                         {
                             await file.CopyToAsync(stream);
                         }
-                        string videoPath = "wwwroot/videos/" + file.FileName;
+                        string videoPath = $"wwwroot/videos/{fileName}";
                         // clean force up stream
                         GC.Collect();
                         // Lưu video lên máy chủ FTP
-                        SaveVideoFTP(videoPath, file.FileName);
-                        list.Add(file.FileName);
+                        SaveVideoFTP(videoPath, fileName);
+                        list.Add(fileName);
                         // Xóa video lưu tạm sau khi hoàn thành lưu video lên máy FTP
                         if (File.Exists(path))
                         {
@@ -164,6 +167,25 @@ namespace SoloDevApp.Service.Services
             catch (Exception ex)
             {
                 throw ex;
+            }
+        }
+
+        public async Task DeleteVideoFTPAsync(string fileName)
+        {
+            try
+            {
+                FtpWebRequest request = (FtpWebRequest)WebRequest.Create(_ftpSettings.IP + fileName);
+                if (request.ContentLength != 0)
+                {
+                    request.Method = WebRequestMethods.Ftp.DeleteFile;
+                    request.Credentials = new NetworkCredential(_ftpSettings.UserName, _ftpSettings.Password);
+                    FtpWebResponse response = (FtpWebResponse)request.GetResponse();
+                    response.Close();
+                }
+            }
+            catch (WebException ex)
+            {
+                throw new Exception((ex.Response as FtpWebResponse).StatusDescription);
             }
         }
 

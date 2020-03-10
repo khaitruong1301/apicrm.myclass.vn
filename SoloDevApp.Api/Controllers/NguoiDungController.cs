@@ -13,12 +13,10 @@ namespace SoloDevApp.Api.Controllers
     public class NguoiDungController : ControllerBase
     {
         private INguoiDungService _nguoiDungService;
-        private IUploadService _uploadService;
 
         public NguoiDungController(INguoiDungService nguoiDungService, IUploadService uploadService)
         {
             _nguoiDungService = nguoiDungService;
-            _uploadService = uploadService;
         }
 
         [HttpGet]

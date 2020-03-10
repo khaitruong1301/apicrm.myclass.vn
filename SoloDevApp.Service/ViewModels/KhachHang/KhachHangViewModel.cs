@@ -7,6 +7,7 @@
         public string BiDanh { get; set; }
         public DiaChiViewModel DiaChi { get; set; }
         public ThongTinKHViewModel ThongTinKH { get; set; }
+        public HocPhiViewModel HocPhi { get; set; }
         public int MaTrangThaiKH { get; set; }
         public string MaDoiTacGioiThieu { get; set; }
         public string DanhSachNguoiTuVan { get; set; }

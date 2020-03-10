@@ -14,7 +14,7 @@ namespace SoloDevApp.Repository.Infrastructure
     {
         Task<IEnumerable<T>> GetAllAsync();
 
-        Task<PagingResult<T>> GetPagingAsync(int pageIndex, int pageSize, string keywords);
+        Task<PagingResult<T>> GetPagingAsync(int pageIndex, int pageSize, string keywords, string filter);
 
         Task<T> InsertAsync(T entity);
 
@@ -76,18 +76,31 @@ namespace SoloDevApp.Repository.Infrastructure
             }
         }
 
-        public async Task<PagingResult<T>> GetPagingAsync(int pageIndex, int pageSize, string keywords)
+        public async Task<PagingResult<T>> GetPagingAsync(int pageIndex, int pageSize, string keywords, string filter)
         {
             try
             {
                 using (var conn = CreateConnection())
                 {
                     var parameters = new DynamicParameters();
+                    string strFilter = "";
+                    if (!string.IsNullOrEmpty(filter))
+                    {
+                        List<Filter> filters = JsonConvert.DeserializeObject<List<Filter>>(filter);
+
+                        foreach (Filter item in filters)
+                        {
+                            strFilter += $" AND {item.Column} = N'{item.Value}'";
+                        }
+                    }
+
                     parameters.Add("@tableName", _table);
                     parameters.Add("@pageIndex", pageIndex);
                     parameters.Add("@pageSize", pageSize);
                     parameters.Add("@keywords", keywords);
+                    parameters.Add("@filter", strFilter);
                     parameters.Add("@totalRow", dbType: DbType.Int32, direction: ParameterDirection.Output);
+
                     var result = await conn.QueryAsync<T>("GET_PAGING_DATA", parameters, null, null, CommandType.StoredProcedure);
                     int totalRow = parameters.Get<int>("@totalRow");
                     return new PagingResult<T>()
