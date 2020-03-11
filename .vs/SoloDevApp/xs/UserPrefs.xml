@@ -1,8 +1,9 @@
 ﻿<Properties StartupConfiguration="{747AF7C0-35C8-46B6-9674-9583F1242B75}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="SoloDevApp.Api/Startup.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="SoloDevApp.Api/appsettings.json">
     <Files>
       <File FileName="SoloDevApp.Api/Program.cs" Line="1" Column="1" />
-      <File FileName="SoloDevApp.Api/Startup.cs" Line="100" Column="65" />
+      <File FileName="SoloDevApp.Api/Startup.cs" Line="100" Column="14" />
+      <File FileName="SoloDevApp.Api/appsettings.json" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -10,7 +11,7 @@
           <Node name="SoloDevApp" expanded="True">
             <Node name="SoloDevApp.Api" expanded="True">
               <Node name="Config" expanded="True" />
-              <Node name="Startup.cs" selected="True" />
+              <Node name="appsettings.json" selected="True" />
             </Node>
           </Node>
         </State>
