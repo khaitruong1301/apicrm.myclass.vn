@@ -191,7 +191,7 @@ namespace SoloDevApp.Service.Services
 
         private async Task<string> SaveFileAsync(IFormFile file, string folder)
         {
-            var folderName = Path.Combine("wwwroot", folder, DateTime.Now.ToString("yyyyMMdd"));
+            var folderName = Path.Combine("wwwroot", folder);
             var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
 
             // Tạo folder nếu chưa tồn tại
@@ -199,7 +199,7 @@ namespace SoloDevApp.Service.Services
                 Directory.CreateDirectory(pathToSave);
 
             // Lấy tên file
-            string fileName = Path.GetFileName(file.FileName);
+            string fileName = $"{DateTime.Now.ToString("dd-MM-yyyy-hh-mm-ss")}-{file.FileName}";
 
             // Tạo đường dẫn tới file
             string path = Path.Combine(pathToSave, fileName);
@@ -215,7 +215,7 @@ namespace SoloDevApp.Service.Services
                 await file.CopyToAsync(stream);
             }
 
-            return $"/{folder}/{DateTime.Now.ToString("yyyyMMdd")}/{fileName}";
+            return $"/{folder}/{fileName}";
         }
 
         private bool SaveVideoFTP(string path, string fileName)
