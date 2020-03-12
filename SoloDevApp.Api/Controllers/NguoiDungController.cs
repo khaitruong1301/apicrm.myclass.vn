@@ -68,8 +68,8 @@ namespace SoloDevApp.Api.Controllers
             return await _nguoiDungService.SignInAsync(model);
         }
 
-        [HttpPut("password")]
-        public async Task<IActionResult> Put([FromBody] DoiMatKhauViewModel model)
+        [HttpPut("password/{id}")]
+        public async Task<IActionResult> Put(string id, [FromBody] DoiMatKhauViewModel model)
         {
             return await _nguoiDungService.ChangePasswordAsync(model);
         }

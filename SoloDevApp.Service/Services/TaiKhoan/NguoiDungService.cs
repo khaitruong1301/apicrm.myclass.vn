@@ -67,7 +67,7 @@ namespace SoloDevApp.Service.Services
         {
             try
             {
-                NguoiDung entity = await _nguoiDungRepository.GetByEmailAsync(modelVm.Email);
+                NguoiDung entity = await _nguoiDungRepository.GetSingleByIdAsync(modelVm.Id);
                 if (entity == null)
                     return new ResponseEntity(StatusCodeConstants.NOT_FOUND);
 

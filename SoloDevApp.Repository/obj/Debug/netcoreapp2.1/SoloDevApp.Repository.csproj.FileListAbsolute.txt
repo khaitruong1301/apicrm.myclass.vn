@@ -30,14 +30,6 @@ D:/CYBERSOFT/CRM_CYBERSOFT/CRM_CBERSOFT_FULL/CrmCybersoftApp/SoloDevApp.Reposito
 /Users/user/Documents/CybersoftServer/apicrm.myclass.vn/SoloDevApp.Repository/obj/Debug/netcoreapp2.1/SoloDevApp.Repository.AssemblyInfo.cs
 /Users/user/Documents/CybersoftServer/apicrm.myclass.vn/SoloDevApp.Repository/obj/Debug/netcoreapp2.1/SoloDevApp.Repository.dll
 /Users/user/Documents/CybersoftServer/apicrm.myclass.vn/SoloDevApp.Repository/obj/Debug/netcoreapp2.1/SoloDevApp.Repository.pdb
-D:/CYBERSOFT/CRM_CYBERSOFT/LOGIN_CYBERSOFT/apicrm.myclass.vn_be/SoloDevApp.Repository/bin/Debug/netcoreapp2.1/SoloDevApp.Repository.deps.json
-D:/CYBERSOFT/CRM_CYBERSOFT/LOGIN_CYBERSOFT/apicrm.myclass.vn_be/SoloDevApp.Repository/bin/Debug/netcoreapp2.1/SoloDevApp.Repository.dll
-D:/CYBERSOFT/CRM_CYBERSOFT/LOGIN_CYBERSOFT/apicrm.myclass.vn_be/SoloDevApp.Repository/bin/Debug/netcoreapp2.1/SoloDevApp.Repository.pdb
-D:/CYBERSOFT/CRM_CYBERSOFT/LOGIN_CYBERSOFT/apicrm.myclass.vn_be/SoloDevApp.Repository/obj/Debug/netcoreapp2.1/SoloDevApp.Repository.AssemblyInfoInputs.cache
-D:/CYBERSOFT/CRM_CYBERSOFT/LOGIN_CYBERSOFT/apicrm.myclass.vn_be/SoloDevApp.Repository/obj/Debug/netcoreapp2.1/SoloDevApp.Repository.AssemblyInfo.cs
-D:/CYBERSOFT/CRM_CYBERSOFT/LOGIN_CYBERSOFT/apicrm.myclass.vn_be/SoloDevApp.Repository/obj/Debug/netcoreapp2.1/SoloDevApp.Repository.dll
-D:/CYBERSOFT/CRM_CYBERSOFT/LOGIN_CYBERSOFT/apicrm.myclass.vn_be/SoloDevApp.Repository/obj/Debug/netcoreapp2.1/SoloDevApp.Repository.pdb
-D:/CYBERSOFT/CRM_CYBERSOFT/LOGIN_CYBERSOFT/apicrm.myclass.vn_be/SoloDevApp.Repository/obj/Debug/netcoreapp2.1/SoloDevApp.Repository.csprojAssemblyReference.cache
 /Users/user/Documents/CybersoftServer/apicrm.myclass.vn/apicrm.myclass.vn/SoloDevApp.Repository/bin/Debug/netcoreapp2.1/SoloDevApp.Repository.deps.json
 /Users/user/Documents/CybersoftServer/apicrm.myclass.vn/apicrm.myclass.vn/SoloDevApp.Repository/bin/Debug/netcoreapp2.1/SoloDevApp.Repository.dll
 /Users/user/Documents/CybersoftServer/apicrm.myclass.vn/apicrm.myclass.vn/SoloDevApp.Repository/bin/Debug/netcoreapp2.1/SoloDevApp.Repository.pdb
@@ -46,3 +38,10 @@ D:/CYBERSOFT/CRM_CYBERSOFT/LOGIN_CYBERSOFT/apicrm.myclass.vn_be/SoloDevApp.Repos
 /Users/user/Documents/CybersoftServer/apicrm.myclass.vn/apicrm.myclass.vn/SoloDevApp.Repository/obj/Debug/netcoreapp2.1/SoloDevApp.Repository.AssemblyInfo.cs
 /Users/user/Documents/CybersoftServer/apicrm.myclass.vn/apicrm.myclass.vn/SoloDevApp.Repository/obj/Debug/netcoreapp2.1/SoloDevApp.Repository.dll
 /Users/user/Documents/CybersoftServer/apicrm.myclass.vn/apicrm.myclass.vn/SoloDevApp.Repository/obj/Debug/netcoreapp2.1/SoloDevApp.Repository.pdb
+D:\CYBERSOFT\CRM_CYBERSOFT\LOGIN_CYBERSOFT\apicrm.myclass.vn_be\SoloDevApp.Repository\bin\Debug\netcoreapp2.1\SoloDevApp.Repository.deps.json
+D:\CYBERSOFT\CRM_CYBERSOFT\LOGIN_CYBERSOFT\apicrm.myclass.vn_be\SoloDevApp.Repository\bin\Debug\netcoreapp2.1\SoloDevApp.Repository.dll
+D:\CYBERSOFT\CRM_CYBERSOFT\LOGIN_CYBERSOFT\apicrm.myclass.vn_be\SoloDevApp.Repository\bin\Debug\netcoreapp2.1\SoloDevApp.Repository.pdb
+D:\CYBERSOFT\CRM_CYBERSOFT\LOGIN_CYBERSOFT\apicrm.myclass.vn_be\SoloDevApp.Repository\obj\Debug\netcoreapp2.1\SoloDevApp.Repository.AssemblyInfoInputs.cache
+D:\CYBERSOFT\CRM_CYBERSOFT\LOGIN_CYBERSOFT\apicrm.myclass.vn_be\SoloDevApp.Repository\obj\Debug\netcoreapp2.1\SoloDevApp.Repository.AssemblyInfo.cs
+D:\CYBERSOFT\CRM_CYBERSOFT\LOGIN_CYBERSOFT\apicrm.myclass.vn_be\SoloDevApp.Repository\obj\Debug\netcoreapp2.1\SoloDevApp.Repository.dll
+D:\CYBERSOFT\CRM_CYBERSOFT\LOGIN_CYBERSOFT\apicrm.myclass.vn_be\SoloDevApp.Repository\obj\Debug\netcoreapp2.1\SoloDevApp.Repository.pdb
