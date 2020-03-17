@@ -146,7 +146,7 @@ namespace SoloDevApp.Service.Services
             LoTrinh loTrinh = await _loTrinhRepository.GetSingleByIdAsync(maLoTrinh);
 
             List<KhoaHoc> dsKhoaHoc = new List<KhoaHoc>();
-            if (loTrinh.DanhSachKhoaHoc != null)
+            if (!string.IsNullOrEmpty(loTrinh.DanhSachKhoaHoc))
             {
                 // Convert string json thành mảng
                 List<dynamic> dsMaKhoaHoc = JsonConvert.DeserializeObject<List<dynamic>>(loTrinh.DanhSachKhoaHoc);
