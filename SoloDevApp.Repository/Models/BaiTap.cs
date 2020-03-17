@@ -8,5 +8,6 @@
         public string NoiDung { get; set; }
         public int SoNgayKichHoat { get; set; }
         public int MaLoTrinh { get; set; }
+        public string GhiChu { get; set; }
     }
 }

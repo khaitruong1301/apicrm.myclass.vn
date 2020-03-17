@@ -10,7 +10,7 @@ namespace SoloDevApp.Service.ViewModels
         public string NoiDung { get; set; }
         public int SoNgayKichHoat { get; set; }
         public int MaLoTrinh { get; set; }
-
+        public string GhiChu { get; set; }
         [DefaultValue(false)]
         public bool TrangThai { get; set; }
         public BaiTapNopViewModel BaiTapNop { get; set; }

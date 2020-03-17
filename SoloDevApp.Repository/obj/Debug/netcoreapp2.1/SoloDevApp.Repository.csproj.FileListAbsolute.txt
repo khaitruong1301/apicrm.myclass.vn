@@ -45,3 +45,4 @@ D:\CYBERSOFT\CRM_CYBERSOFT\LOGIN_CYBERSOFT\apicrm.myclass.vn_be\SoloDevApp.Repos
 D:\CYBERSOFT\CRM_CYBERSOFT\LOGIN_CYBERSOFT\apicrm.myclass.vn_be\SoloDevApp.Repository\obj\Debug\netcoreapp2.1\SoloDevApp.Repository.AssemblyInfo.cs
 D:\CYBERSOFT\CRM_CYBERSOFT\LOGIN_CYBERSOFT\apicrm.myclass.vn_be\SoloDevApp.Repository\obj\Debug\netcoreapp2.1\SoloDevApp.Repository.dll
 D:\CYBERSOFT\CRM_CYBERSOFT\LOGIN_CYBERSOFT\apicrm.myclass.vn_be\SoloDevApp.Repository\obj\Debug\netcoreapp2.1\SoloDevApp.Repository.pdb
+D:\CYBERSOFT\CRM_CYBERSOFT\LOGIN_CYBERSOFT\apicrm.myclass.vn_be\SoloDevApp.Repository\obj\Debug\netcoreapp2.1\SoloDevApp.Repository.csprojAssemblyReference.cache
