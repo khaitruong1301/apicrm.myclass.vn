@@ -1,23 +1,16 @@
 ﻿<Properties StartupConfiguration="{747AF7C0-35C8-46B6-9674-9583F1242B75}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="SoloDevApp.Api/Startup.cs">
-    <Files>
-      <File FileName="SoloDevApp.Api/Program.cs" Line="1" Column="1" />
-      <File FileName="SoloDevApp.Api/Startup.cs" Line="108" Column="94" />
-      <File FileName="SoloDevApp.Api/appsettings.json" />
-      <File FileName="SoloDevApp.Api/Controllers/KhoaHocController.cs" />
-      <File FileName="SoloDevApp.Service/Services/HocTap/KhoaHocService.cs" />
-      <File FileName="SoloDevApp.Service/ViewModels/HocTap/BaiHocViewModel.cs" />
-      <File FileName="SoloDevApp.Service/ViewModels/HocTap/ThongTinKhoaHocViewModel.cs" />
-      <File FileName="SoloDevApp.Repository/Infrastructure/RepositoryBase.cs" />
-      <File FileName="../../../../Library/Caches/VisualStudio/8.0/Symbols/StackExchange/Dapper/247e498f0e52c88d0c58c6f1fa50457bb6ab5888/Dapper/SqlMapper.Async.cs" />
-    </Files>
+  <MonoDevelop.Ide.Workbench>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="SoloDevApp" expanded="True">
-            <Node name="SoloDevApp.Api" expanded="True" selected="True" />
+            <Node name="SoloDevApp.Api" expanded="True">
+              <Node name="Controllers" expanded="True" />
+            </Node>
             <Node name="SoloDevApp.Repository" expanded="True">
-              <Node name="Infrastructure" expanded="True" />
+              <Node name="Infrastructure" expanded="True">
+                <Node name="RepositoryBase.cs" selected="True" />
+              </Node>
             </Node>
             <Node name="SoloDevApp.Service" expanded="True">
               <Node name="Services" expanded="True">
