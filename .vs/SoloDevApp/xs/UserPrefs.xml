@@ -1,8 +1,5 @@
 ﻿<Properties StartupConfiguration="{747AF7C0-35C8-46B6-9674-9583F1242B75}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="../../../../../../usr/local/share/dotnet/sdk/3.1.101/Sdks/Microsoft.NET.Sdk/targets/Microsoft.PackageDependencyResolution.targets">
-    <Files>
-      <File FileName="../../../../../../usr/local/share/dotnet/sdk/3.1.101/Sdks/Microsoft.NET.Sdk/targets/Microsoft.PackageDependencyResolution.targets" Line="234" Column="27" />
-    </Files>
+  <MonoDevelop.Ide.Workbench>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
