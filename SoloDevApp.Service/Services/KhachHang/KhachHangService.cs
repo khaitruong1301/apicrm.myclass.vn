@@ -78,24 +78,34 @@ namespace SoloDevApp.Service.Services
         {
             try
             {
-                var khachHang = await _khachHangRepository.GetSingleByIdAsync(id);
+                KhachHang khachHang = await _khachHangRepository.GetSingleByIdAsync(id);
                 if (khachHang == null)
                     return new ResponseEntity(StatusCodeConstants.NOT_FOUND, modelVm);
 
                 KhachHangViewModel khachHangVm = _mapper.Map<KhachHangViewModel>(khachHang);
-                modelVm.ThongTinKH.MucLuongMongMuon = khachHangVm.ThongTinKH.MucLuongMongMuon;
-                modelVm.ThongTinKH.MucLuongMongMuonSau2Nam = khachHangVm.ThongTinKH.MucLuongMongMuonSau2Nam;
-                modelVm.ThongTinKH.TraiNganh = khachHangVm.ThongTinKH.TraiNganh;
-                modelVm.ThongTinKH.TiengAnh = khachHangVm.ThongTinKH.TiengAnh;
-                modelVm.ThongTinKH.CmndTruoc = khachHangVm.ThongTinKH.CmndTruoc;
-                modelVm.ThongTinKH.CmndSau = khachHangVm.ThongTinKH.CmndSau;
-                modelVm.ThongTinKH.NoilamViec = khachHangVm.ThongTinKH.NoilamViec;
-                modelVm.ThongTinKH.HoTroTimViec = khachHangVm.ThongTinKH.HoTroTimViec;
-                modelVm.ThongTinKH.MaCaNhan = khachHangVm.ThongTinKH.MaCaNhan;
+                khachHangVm.ThongTinKH = JsonConvert.DeserializeObject<ThongTinKHViewModel>(khachHang.ThongTinKH);
 
+                // CẬP NHẬT THÔNG TIN KHÁCH HÀNG
+                khachHangVm.TenKH = modelVm.TenKH;
+                khachHangVm.BiDanh = modelVm.BiDanh;
+                khachHangVm.ThongTinKH.Email = modelVm.ThongTinKH.Email;
+                khachHangVm.ThongTinKH.SoDienThoai = modelVm.ThongTinKH.SoDienThoai;
+                khachHangVm.ThongTinKH.NguonGioiThieu = modelVm.ThongTinKH.NguonGioiThieu;
+                khachHangVm.ThongTinKH.CongViecHienTai = modelVm.ThongTinKH.CongViecHienTai;
+                khachHangVm.ThongTinKH.TruongDaVaDangHoc = modelVm.ThongTinKH.TruongDaVaDangHoc;
+                khachHangVm.ThongTinKH.MucTieu = modelVm.ThongTinKH.MucTieu;
+                khachHangVm.ThongTinKH.DiemTiemNang = modelVm.ThongTinKH.DiemTiemNang;
 
                 khachHang = _mapper.Map<KhachHang>(khachHangVm);
                 await _khachHangRepository.UpdateAsync(id, khachHang);
+
+                // CẬP NHẬT THÔNG TIN NGƯỜI DÙNG
+                NguoiDung nguoiDung = await _nguoiDungRepository.GetByEmailAsync(khachHangVm.ThongTinKH.Email);
+                nguoiDung.HoTen = modelVm.TenKH;
+                nguoiDung.BiDanh = modelVm.BiDanh;
+                nguoiDung.SoDT = modelVm.ThongTinKH.SoDienThoai;
+                nguoiDung.Email = modelVm.ThongTinKH.Email;
+                await _nguoiDungRepository.UpdateAsync(nguoiDung.Id, nguoiDung);
 
                 return new ResponseEntity(StatusCodeConstants.OK, modelVm, MessageConstants.UPDATE_SUCCESS);
             }

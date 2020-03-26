@@ -263,12 +263,23 @@ namespace SoloDevApp.Service.Services
         {
             try
             {
+                // CẬP NHẬT THÔNG TIN NGƯỜI DÙNG
                 NguoiDung entity = await _nguoiDungRepository.GetSingleByIdAsync(id);
                 if (entity == null)
                     return new ResponseEntity(StatusCodeConstants.NOT_FOUND, modelVm);
 
                 entity = _mapper.Map<NguoiDung>(modelVm);
                 await _nguoiDungRepository.UpdateAsync(id, entity);
+
+                // CẬP NHẬT THÔNG TIN KHÁCH HÀNG
+                KhachHang khachHang = await _khachHangRepository.GetByEmailAsync(entity.Email);
+                KhachHangViewModel khachHangVm = _mapper.Map<KhachHangViewModel>(khachHang);
+                khachHangVm.TenKH = entity.HoTen;
+                khachHangVm.ThongTinKH.Email = entity.Email;
+                khachHangVm.ThongTinKH.SoDienThoai = entity.SoDT;
+
+                khachHang = _mapper.Map<KhachHang>(khachHangVm);
+                await _khachHangRepository.UpdateAsync(khachHang.Id, khachHang);
 
                 return new ResponseEntity(StatusCodeConstants.OK, modelVm, MessageConstants.UPDATE_SUCCESS);
             }
