@@ -11,5 +11,6 @@
         public int MaLopHoc { get; set; }
         public int MaBaiTap { get; set; }
         public string MaNguoiDung { get; set; }
+
     }
 }

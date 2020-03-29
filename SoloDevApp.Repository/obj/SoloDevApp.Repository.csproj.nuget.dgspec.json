@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/user/Documents/CybersoftServer/apicrm.myclass.vn/apicrm.myclass.vn/SoloDevApp.Repository/SoloDevApp.Repository.csproj": {}
+    "/Users/user/Documents/CybersoftServer/apicrm.cybersoft.edu.vn/apicrm.myclass.vn/SoloDevApp.Repository/SoloDevApp.Repository.csproj": {}
   },
   "projects": {
-    "/Users/user/Documents/CybersoftServer/apicrm.myclass.vn/apicrm.myclass.vn/SoloDevApp.Repository/SoloDevApp.Repository.csproj": {
+    "/Users/user/Documents/CybersoftServer/apicrm.cybersoft.edu.vn/apicrm.myclass.vn/SoloDevApp.Repository/SoloDevApp.Repository.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/user/Documents/CybersoftServer/apicrm.myclass.vn/apicrm.myclass.vn/SoloDevApp.Repository/SoloDevApp.Repository.csproj",
+        "projectUniqueName": "/Users/user/Documents/CybersoftServer/apicrm.cybersoft.edu.vn/apicrm.myclass.vn/SoloDevApp.Repository/SoloDevApp.Repository.csproj",
         "projectName": "SoloDevApp.Repository",
-        "projectPath": "/Users/user/Documents/CybersoftServer/apicrm.myclass.vn/apicrm.myclass.vn/SoloDevApp.Repository/SoloDevApp.Repository.csproj",
+        "projectPath": "/Users/user/Documents/CybersoftServer/apicrm.cybersoft.edu.vn/apicrm.myclass.vn/SoloDevApp.Repository/SoloDevApp.Repository.csproj",
         "packagesPath": "/Users/user/.nuget/packages/",
-        "outputPath": "/Users/user/Documents/CybersoftServer/apicrm.myclass.vn/apicrm.myclass.vn/SoloDevApp.Repository/obj/",
+        "outputPath": "/Users/user/Documents/CybersoftServer/apicrm.cybersoft.edu.vn/apicrm.myclass.vn/SoloDevApp.Repository/obj/",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
@@ -72,7 +72,7 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/3.1.101/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/3.1.102/RuntimeIdentifierGraph.json"
         }
       }
     }

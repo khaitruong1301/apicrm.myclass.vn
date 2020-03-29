@@ -44,12 +44,23 @@ namespace SoloDevApp.Service.Services
 
                 // Cập nhật lại danh sách khóa học của lộ trình
                 loTrinh = _mapper.Map<LoTrinh>(loTrinhVm);
-                loTrinh = await _loTrinhRepository.UpdateAsync(id, loTrinh);
+                loTrinh = await _loTrinhRepository.UpdateAsyncHasArrayNull(id, loTrinh);
+
+
 
                 // Lấy ra danh sách thông tin các khóa học thuộc lộ trình sau khi cập nhật
-                var khoaHocs = (await _khoaHocRepository.GetMultiByIdAsync(listId.ToList()));
+                //var khoaHocs = (await _khoaHocRepository.GetMultiByIdAsync(listId.ToList()));
+                List<KhoaHoc> khoaHocs = new List<KhoaHoc>();
+
+                for ( int i=0;i<listId.Count(); i++)
+                {
+                    KhoaHoc kh = await _khoaHocRepository.GetSingleByIdAsync(listId.ElementAt(i));
+                    khoaHocs.Add(kh);
+                }
+
+
                 // Cập nhật lại danh sách lộ trình của mỗi khóa học
-                foreach(KhoaHoc item in khoaHocs)
+                foreach (KhoaHoc item in khoaHocs)
                 {
                     HashSet<dynamic> dsMaLoTrinh = new HashSet<dynamic>();
                     if(item.DanhSachLoTrinh != null)

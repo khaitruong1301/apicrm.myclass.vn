@@ -211,6 +211,10 @@ namespace SoloDevApp.Api
                 RequestPath = new PathString("/wwwroot")
             });
 
+            app.UseStaticFiles();
+
+
+
             app.UseMvc();
 
             // ==================== SWAGGER ====================

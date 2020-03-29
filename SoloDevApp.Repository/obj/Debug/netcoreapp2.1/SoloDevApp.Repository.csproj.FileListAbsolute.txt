@@ -46,3 +46,10 @@ D:/CYBERSOFT/CRM_CYBERSOFT/LOGIN_CYBERSOFT/apicrm.myclass.vn_be/SoloDevApp.Repos
 D:/CYBERSOFT/CRM_CYBERSOFT/LOGIN_CYBERSOFT/apicrm.myclass.vn_be/SoloDevApp.Repository/obj/Debug/netcoreapp2.1/SoloDevApp.Repository.dll
 D:/CYBERSOFT/CRM_CYBERSOFT/LOGIN_CYBERSOFT/apicrm.myclass.vn_be/SoloDevApp.Repository/obj/Debug/netcoreapp2.1/SoloDevApp.Repository.pdb
 D:/CYBERSOFT/CRM_CYBERSOFT/LOGIN_CYBERSOFT/apicrm.myclass.vn_be/SoloDevApp.Repository/obj/Debug/netcoreapp2.1/SoloDevApp.Repository.csprojAssemblyReference.cache
+/Users/user/Documents/CybersoftServer/apicrm.cybersoft.edu.vn/apicrm.myclass.vn/SoloDevApp.Repository/bin/Debug/netcoreapp2.1/SoloDevApp.Repository.deps.json
+/Users/user/Documents/CybersoftServer/apicrm.cybersoft.edu.vn/apicrm.myclass.vn/SoloDevApp.Repository/bin/Debug/netcoreapp2.1/SoloDevApp.Repository.dll
+/Users/user/Documents/CybersoftServer/apicrm.cybersoft.edu.vn/apicrm.myclass.vn/SoloDevApp.Repository/bin/Debug/netcoreapp2.1/SoloDevApp.Repository.pdb
+/Users/user/Documents/CybersoftServer/apicrm.cybersoft.edu.vn/apicrm.myclass.vn/SoloDevApp.Repository/obj/Debug/netcoreapp2.1/SoloDevApp.Repository.AssemblyInfoInputs.cache
+/Users/user/Documents/CybersoftServer/apicrm.cybersoft.edu.vn/apicrm.myclass.vn/SoloDevApp.Repository/obj/Debug/netcoreapp2.1/SoloDevApp.Repository.AssemblyInfo.cs
+/Users/user/Documents/CybersoftServer/apicrm.cybersoft.edu.vn/apicrm.myclass.vn/SoloDevApp.Repository/obj/Debug/netcoreapp2.1/SoloDevApp.Repository.dll
+/Users/user/Documents/CybersoftServer/apicrm.cybersoft.edu.vn/apicrm.myclass.vn/SoloDevApp.Repository/obj/Debug/netcoreapp2.1/SoloDevApp.Repository.pdb
