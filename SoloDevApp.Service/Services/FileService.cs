@@ -249,10 +249,8 @@ namespace SoloDevApp.Service.Services
             if (!Directory.Exists(pathToSave))
                 Directory.CreateDirectory(pathToSave);
 
-            string tenFile = BestLower(fileName);
-            string typeFile = file.FileName.Split('.')[file.FileName.Split('.').Length - 1];
             // Lấy tên file
-            fileName = $"{tenFile}.{typeFile}";
+            fileName = $"{fileName}";
 
             // Tạo đường dẫn tới file
             string path = Path.Combine(pathToSave, fileName);

@@ -208,8 +208,28 @@ namespace SoloDevApp.Api
             app.UseStaticFiles(new StaticFileOptions()
             {
                 FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot")),
-                RequestPath = new PathString("/wwwroot")
-            });
+                RequestPath = new PathString("/wwwroot"),
+
+            }) ;
+
+            //app.UseStaticFiles(new StaticFileOptions()
+            //{
+            //    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot", "images")),
+            //    RequestPath = new PathString("/images"),
+
+            //});
+            //app.UseStaticFiles(new StaticFileOptions()
+            //{
+            //    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot", "files")),
+            //    RequestPath = new PathString("/files"),
+
+            //});
+            //app.UseStaticFiles(new StaticFileOptions()
+            //{
+            //    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot","cmnd")),
+            //    RequestPath = new PathString("/cmnd"),
+
+            //});
 
             app.UseStaticFiles();
 
@@ -223,6 +243,9 @@ namespace SoloDevApp.Api
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "SOLO DEV API VERSION 01");
             });
+
+
+            
         }
     }
 }
