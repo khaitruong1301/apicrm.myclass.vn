@@ -13392,38 +13392,36 @@
     ]
   },
   "packageFolders": {
-    "/Users/user/.nuget/packages/": {},
-    "/usr/local/share/dotnet/sdk/NuGetFallbackFolder": {}
+    "C:\\Users\\TienHoang\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/user/Documents/CybersoftServer/apicrm.myclass.vn/apicrm.myclass.vn/SoloDevApp.Api/SoloDevApp.Api.csproj",
+      "projectUniqueName": "D:\\CYBERSOFT\\CRM_CYBERSOFT\\LOGIN_CYBERSOFT\\apicrm.myclass.vn_be\\SoloDevApp.Api\\SoloDevApp.Api.csproj",
       "projectName": "SoloDevApp.Api",
-      "projectPath": "/Users/user/Documents/CybersoftServer/apicrm.myclass.vn/apicrm.myclass.vn/SoloDevApp.Api/SoloDevApp.Api.csproj",
-      "packagesPath": "/Users/user/.nuget/packages/",
-      "outputPath": "/Users/user/Documents/CybersoftServer/apicrm.myclass.vn/apicrm.myclass.vn/SoloDevApp.Api/obj/",
+      "projectPath": "D:\\CYBERSOFT\\CRM_CYBERSOFT\\LOGIN_CYBERSOFT\\apicrm.myclass.vn_be\\SoloDevApp.Api\\SoloDevApp.Api.csproj",
+      "packagesPath": "C:\\Users\\TienHoang\\.nuget\\packages\\",
+      "outputPath": "D:\\CYBERSOFT\\CRM_CYBERSOFT\\LOGIN_CYBERSOFT\\apicrm.myclass.vn_be\\SoloDevApp.Api\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
-      ],
       "configFilePaths": [
-        "/Users/user/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\TienHoang\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp2.1"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "netcoreapp2.1": {
           "projectReferences": {
-            "/Users/user/Documents/CybersoftServer/apicrm.myclass.vn/apicrm.myclass.vn/SoloDevApp.Repository/SoloDevApp.Repository.csproj": {
-              "projectPath": "/Users/user/Documents/CybersoftServer/apicrm.myclass.vn/apicrm.myclass.vn/SoloDevApp.Repository/SoloDevApp.Repository.csproj"
+            "D:\\CYBERSOFT\\CRM_CYBERSOFT\\LOGIN_CYBERSOFT\\apicrm.myclass.vn_be\\SoloDevApp.Repository\\SoloDevApp.Repository.csproj": {
+              "projectPath": "D:\\CYBERSOFT\\CRM_CYBERSOFT\\LOGIN_CYBERSOFT\\apicrm.myclass.vn_be\\SoloDevApp.Repository\\SoloDevApp.Repository.csproj"
             },
-            "/Users/user/Documents/CybersoftServer/apicrm.myclass.vn/apicrm.myclass.vn/SoloDevApp.Service/SoloDevApp.Service.csproj": {
-              "projectPath": "/Users/user/Documents/CybersoftServer/apicrm.myclass.vn/apicrm.myclass.vn/SoloDevApp.Service/SoloDevApp.Service.csproj"
+            "D:\\CYBERSOFT\\CRM_CYBERSOFT\\LOGIN_CYBERSOFT\\apicrm.myclass.vn_be\\SoloDevApp.Service\\SoloDevApp.Service.csproj": {
+              "projectPath": "D:\\CYBERSOFT\\CRM_CYBERSOFT\\LOGIN_CYBERSOFT\\apicrm.myclass.vn_be\\SoloDevApp.Service\\SoloDevApp.Service.csproj"
             }
           }
         }
@@ -13473,7 +13471,7 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/3.1.101/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.0.100\\RuntimeIdentifierGraph.json"
       }
     }
   }
