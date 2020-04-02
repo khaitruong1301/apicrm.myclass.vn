@@ -1,36 +1,59 @@
 ﻿<Properties StartupConfiguration="{747AF7C0-35C8-46B6-9674-9583F1242B75}|Default">
-  <MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workbench ActiveDocument="SoloDevApp.Api/Controllers/FileController.cs">
+    <Files>
+      <File FileName="SoloDevApp.Api/Startup.cs" Line="210" Column="112" />
+      <File FileName="SoloDevApp.Api/Controllers/BaiTapController.cs" Line="100" Column="46" />
+      <File FileName="SoloDevApp.Service/Services/FileService.cs" Line="256" Column="62" />
+      <File FileName="SoloDevApp.Api/Controllers/FileController.cs" Line="132" Column="67" />
+    </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="SoloDevApp" expanded="True">
             <Node name="SoloDevApp.Api" expanded="True">
-              <Node name="Controllers" expanded="True" />
+              <Node name="Controllers" expanded="True">
+                <Node name="FileController.cs" selected="True" />
+              </Node>
+              <Node name="Properties" expanded="True" />
             </Node>
             <Node name="SoloDevApp.Repository" expanded="True">
-              <Node name="Infrastructure" expanded="True">
-                <Node name="RepositoryBase.cs" selected="True" />
-              </Node>
+              <Node name="Infrastructure" expanded="True" />
+              <Node name="Models" expanded="True" />
+              <Node name="Repositories" expanded="True" />
             </Node>
             <Node name="SoloDevApp.Service" expanded="True">
+              <Node name="Infrastructure" expanded="True" />
               <Node name="Services" expanded="True">
                 <Node name="HocTap" expanded="True" />
+                <Node name="KhachHang" expanded="True" />
               </Node>
+              <Node name="Utilities" expanded="True" />
               <Node name="ViewModels" expanded="True">
+                <Node name="HeThong" expanded="True" />
                 <Node name="HocTap" expanded="True" />
               </Node>
             </Node>
           </Node>
         </State>
       </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State />
+      </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches>
+    <Watch file="../../../SoloDevApp.Repository/Infrastructure/RepositoryBase.cs" line="150" column="50" endLine="150" endColumn="57" offsetX="-1" offsetY="-1" expression="columns" liveUpdate="False" />
+  </MonoDevelop.Ide.DebuggingService.PinnedWatches>
   <MonoDevelop.Ide.ItemProperties.SoloDevApp.Api PreferredExecutionTarget="/Applications/Google Chrome.app" />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <Debugger.DebugSourceFolders>
+    <String>/Users/user/Library/Caches/VisualStudio/8.0/Symbols/AutoMapper/AutoMapper/53faf3f014802b502f6a49b4c94368f478752f59</String>
+  </Debugger.DebugSourceFolders>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
-      <Breakpoint file="/Users/user/Documents/CybersoftServer/apicrm.myclass.vn/apicrm.myclass.vn/SoloDevApp.Api/Controllers/KhoaHocController.cs" relfile="SoloDevApp.Api/Controllers/KhoaHocController.cs" line="30" column="1" />
+      <Breakpoint file="/usr/local/share/dotnet/sdk/3.1.102/Sdks/Microsoft.NET.Sdk/targets/Microsoft.NET.Sdk.DefaultItems.targets" line="318" column="1" />
+      <Breakpoint file="/Users/user/Documents/CybersoftServer/apicrm.cybersoft.edu.vn/apicrm.myclass.vn/SoloDevApp.Api/Controllers/FileController.cs" relfile="SoloDevApp.Api/Controllers/FileController.cs" line="27" column="17" />
+      <Breakpoint file="/Users/user/Documents/CybersoftServer/apicrm.cybersoft.edu.vn/apicrm.myclass.vn/SoloDevApp.Api/Controllers/FileController.cs" relfile="SoloDevApp.Api/Controllers/FileController.cs" line="131" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MultiItemStartupConfigurations />

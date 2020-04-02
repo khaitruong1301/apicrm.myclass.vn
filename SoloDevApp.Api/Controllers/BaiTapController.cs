@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using SoloDevApp.Service.Services;
+using SoloDevApp.Service.Utilities;
 using SoloDevApp.Service.ViewModels;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -11,10 +13,12 @@ namespace SoloDevApp.Api.Controllers
     public class BaiTapController : ControllerBase
     {
         private IBaiTapService _baiTapService;
+        private IFileService _fileService;
 
-        public BaiTapController(IBaiTapService baiTapService)
+        public BaiTapController(IBaiTapService baiTapService,IFileService fileService)
         {
             _baiTapService = baiTapService;
+            _fileService = fileService;
         }
 
         [HttpGet]
@@ -56,6 +60,12 @@ namespace SoloDevApp.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] BaiTapViewModel model)
         {
+            if(model.NoiDung.Contains("pdf") || model.NoiDung.Contains("zip") || model.NoiDung.Contains("xlsl") || model.NoiDung.Contains("png") || model.NoiDung.Contains("jpg"))
+            {
+                model.NoiDung = FuncUtilities.BestLower(model.NoiDung);
+                //string typeFile = model.NoiDung.Split('-')
+
+            }
             return await _baiTapService.InsertAsync(model);
         }
 
@@ -70,5 +80,58 @@ namespace SoloDevApp.Api.Controllers
         {
             return await _baiTapService.DeleteByIdAsync(Ids);
         }
+        
+        
+        [HttpPost("ThemBaiTap_UploadFile")]
+        public async Task<IActionResult> ThemBaiTap_UploadFile()
+        {
+            var frmData = Request.Form;
+
+            IFormFileCollection files = null;
+
+            BaiTapViewModel model = new BaiTapViewModel();
+            model.contructorBaiTapViewModel(int.Parse(frmData["id"]), frmData["tenBaiTap"], frmData["biDanh"], frmData["noiDung"], int.Parse(frmData["soNgayKichHoat"]), int.Parse(frmData["maLoTrinh"]), frmData["ghiChu"], false);
+
+            if (frmData.Files.Count == 1)
+            {
+                files = Request.Form.Files;
+                model.NoiDung = model.MaLoTrinh + "-" +FuncUtilities.BestLower(model.TenBaiTap) + "." + files[0].FileName.Split(".")[files[0].FileName.Split('.').Length-1];
+
+               await _fileService.UploadFileAsync(files, model.NoiDung);
+            }else
+            {
+                model.NoiDung = "";
+            }
+            return  await _baiTapService.InsertAsync(model);
+        }
+
+
+        [HttpPost("CapNhatBaiTapUploadFile")]
+        public async Task<IActionResult> CapNhatBaiTapUploadFile()
+        {
+
+            var frmData = Request.Form;
+
+            IFormFileCollection files = null;
+
+            BaiTapViewModel model = new BaiTapViewModel();
+            model.contructorBaiTapViewModel(int.Parse(frmData["id"]), frmData["tenBaiTap"], frmData["biDanh"], frmData["noiDung"], int.Parse(frmData["soNgayKichHoat"]), int.Parse(frmData["maLoTrinh"]), frmData["ghiChu"], false);
+
+            if (frmData.Files.Count == 1)
+            {
+                files = Request.Form.Files;
+                model.NoiDung = model.MaLoTrinh + "-" + FuncUtilities.BestLower(model.TenBaiTap) + "." + files[0].FileName.Split(".")[files[0].FileName.Split('.').Length - 1];
+
+                await _fileService.UploadFileAsync(files, model.NoiDung);
+            }
+            else
+            {
+                model.NoiDung = "";
+
+            }
+
+            return await _baiTapService.UpdateAsync(model.Id, model);
+        }
+
     }
 }

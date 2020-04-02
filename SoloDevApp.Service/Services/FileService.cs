@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace SoloDevApp.Service.Services
@@ -13,6 +14,8 @@ namespace SoloDevApp.Service.Services
     public interface IFileService
     {
         Task<List<string>> UploadFileAsync(IFormFileCollection files);
+        Task<List<string>> UploadFileAsync(IFormFileCollection files,string fileName);
+
         Task<List<string>> UploadImageAsync(IFormFileCollection files);
         Task<List<string>> UploadVideoAsync(IFormFileCollection files);
         Task<List<string>> UploadVideoFTPAsync(IFormFileCollection files);
@@ -93,6 +96,20 @@ namespace SoloDevApp.Service.Services
                 if (file != null && file.Length != 0)
                 {
                     string filePath = await SaveFileAsync(file, "files");
+                    list.Add(filePath);
+                }
+            }
+            return list;
+        }
+
+        public async Task<List<string>> UploadFileAsync(IFormFileCollection files,string fileName)
+        {
+            List<string> list = new List<string>();
+            foreach (var file in files)
+            {
+                if (file != null && file.Length != 0)
+                {
+                    string filePath = await SaveFileAsync(file, "files",fileName);
                     list.Add(filePath);
                 }
             }
@@ -189,6 +206,7 @@ namespace SoloDevApp.Service.Services
             }
         }
 
+
         private async Task<string> SaveFileAsync(IFormFile file, string folder)
         {
             var folderName = Path.Combine("wwwroot", folder);
@@ -198,8 +216,10 @@ namespace SoloDevApp.Service.Services
             if (!Directory.Exists(pathToSave))
                 Directory.CreateDirectory(pathToSave);
 
+            string tenFile = BestLower(file.FileName);
+            string typeFile = file.FileName.Split('.')[file.FileName.Split('.').Length - 1];
             // Lấy tên file
-            string fileName = $"{DateTime.Now.ToString("dd-MM-yyyy-hh-mm-ss")}-{file.FileName}";
+            string fileName = $"{tenFile}.{typeFile}";
 
             // Tạo đường dẫn tới file
             string path = Path.Combine(pathToSave, fileName);
@@ -213,6 +233,39 @@ namespace SoloDevApp.Service.Services
             using (var stream = new FileStream(path, FileMode.Create))
             {
                 await file.CopyToAsync(stream);
+
+                
+            }
+
+            return $"/{folder}/{fileName}";
+        }
+
+        private async Task<string> SaveFileAsync(IFormFile file, string folder,string fileName)
+        {
+            var folderName = Path.Combine("wwwroot", folder);
+            var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+
+            // Tạo folder nếu chưa tồn tại
+            if (!Directory.Exists(pathToSave))
+                Directory.CreateDirectory(pathToSave);
+
+            // Lấy tên file
+            fileName = $"{fileName}";
+
+            // Tạo đường dẫn tới file
+            string path = Path.Combine(pathToSave, fileName);
+
+            // Kiểm tra xem file bị trùng không
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+
+            using (var stream = new FileStream(path, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+
+
             }
 
             return $"/{folder}/{fileName}";
@@ -260,6 +313,35 @@ namespace SoloDevApp.Service.Services
                 throw new Exception((ex.Response as FtpWebResponse).StatusDescription);
             }
         }
-
+        public  string BestLower(string input = "")
+        {
+            if (input == null)
+            {
+                return "";
+            }
+            input = input.Trim();
+            for (int i = 0x20; i < 0x30; i++)
+            {
+                input = input.Replace(((char)i).ToString(), " ");
+            }
+            input = input.Replace(".", "-");
+            input = input.Replace(" ", "-");
+            input = input.Replace(",", "-");
+            input = input.Replace(";", "-");
+            input = input.Replace(":", "-");
+            input = input.Replace("  ", "-");
+            Regex regex = new Regex(@"\p{IsCombiningDiacriticalMarks}+");
+            string str = input.Normalize(NormalizationForm.FormD);
+            string str2 = regex.Replace(str, string.Empty).Replace('đ', 'd').Replace('Đ', 'D');
+            while (str2.IndexOf("?") >= 0)
+            {
+                str2 = str2.Remove(str2.IndexOf("?"), 1);
+            }
+            while (str2.Contains("--"))
+            {
+                str2 = str2.Replace("--", "-").ToLower();
+            }
+            return str2.ToLower();
+        }
     }
 }

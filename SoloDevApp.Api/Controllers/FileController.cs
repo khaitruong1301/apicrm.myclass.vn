@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SoloDevApp.Service.Services;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace SoloDevApp.Api.Controllers
@@ -12,10 +14,12 @@ namespace SoloDevApp.Api.Controllers
     public class FileController : ControllerBase
     {
         private readonly IFileService _fileService;
+        private readonly IHostingEnvironment _hostingEnvironment;
 
-        public FileController(IFileService fileService)
+        public FileController(IFileService fileService, IHostingEnvironment hostingEnvironment)
         {
             _fileService = fileService;
+            _hostingEnvironment = hostingEnvironment;
         }
 
         [HttpPost("")]
@@ -121,6 +125,23 @@ namespace SoloDevApp.Api.Controllers
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+
+        //DOWNLOAD FILE
+        [HttpPost("DownloadFile")]
+        public async Task<IActionResult> DownloadFile(string pathFile="")
+        {
+            //string pathFolder = Path.Combine( "files");
+
+            pathFile = "https://localhost:5001/files/" + pathFile;
+            Stream stream = new FileStream( pathFile, FileMode.Open);
+
+
+            if (stream == null)
+                return NotFound(); // returns a NotFoundResult with Status404NotFound response.
+
+            return File(stream, "application/octet-stream"); // return
         }
     }
 }

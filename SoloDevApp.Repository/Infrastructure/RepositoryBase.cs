@@ -19,6 +19,8 @@ namespace SoloDevApp.Repository.Infrastructure
         Task<T> InsertAsync(T entity);
 
         Task<T> UpdateAsync(dynamic id, T entity);
+        Task<T> UpdateAsyncHasArrayNull(dynamic id, T entity);
+
 
         Task<IEnumerable<T>> GetMultiByIdAsync(List<dynamic> listId);
 
@@ -158,7 +160,26 @@ namespace SoloDevApp.Repository.Infrastructure
                 throw ex;
             }
         }
-
+        public virtual async Task<T> UpdateAsyncHasArrayNull(dynamic id, T entity)
+        {
+            try
+            {
+                string columns = GenerateTableColumnsUpdateHasArrayNull(entity);
+                using (var conn = CreateConnection())
+                {
+                    var parameters = new DynamicParameters();
+                    parameters.Add("@id", id);
+                    parameters.Add("@tableName", _table);
+                    parameters.Add("@listColumn", columns);
+                    await conn.ExecuteAsync("UPDATE_DATA", parameters, null, null, CommandType.StoredProcedure);
+                }
+                return entity;
+            }
+            catch (SqlException ex)
+            {
+                throw ex;
+            }
+        }
         public virtual async Task<IEnumerable<T>> GetMultiByIdAsync(List<dynamic> listId)
         {
             try
@@ -367,6 +388,20 @@ namespace SoloDevApp.Repository.Infrastructure
             {
                 var value = props[i].GetValue(entity);
                 if(value != null && value.ToString() != "[]")
+                    columns.Add(new KeyValuePair<string, dynamic>(props[i].Name, value));
+            }
+            return JsonConvert.SerializeObject(columns);
+        }
+
+
+        public string GenerateTableColumnsUpdateHasArrayNull(T entity)
+        {
+            List<KeyValuePair<string, dynamic>> columns = new List<KeyValuePair<string, dynamic>>();
+            PropertyInfo[] props = entity.GetType().GetProperties();
+            for (int i = 1; i < props.Length; i++)
+            {
+                var value = props[i].GetValue(entity);
+                if (value != null)
                     columns.Add(new KeyValuePair<string, dynamic>(props[i].Name, value));
             }
             return JsonConvert.SerializeObject(columns);

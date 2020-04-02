@@ -31,3 +31,14 @@ D:/CYBERSOFT/STARTUP/SoloDevApp/SoloDevApp.Service/obj/Release/netcoreapp2.1/Sol
 /Users/user/Documents/CybersoftServer/apicrm.myclass.vn/apicrm.myclass.vn/SoloDevApp.Service/obj/Release/netcoreapp2.1/SoloDevApp.Service.csproj.CopyComplete
 /Users/user/Documents/CybersoftServer/apicrm.myclass.vn/apicrm.myclass.vn/SoloDevApp.Service/obj/Release/netcoreapp2.1/SoloDevApp.Service.dll
 /Users/user/Documents/CybersoftServer/apicrm.myclass.vn/apicrm.myclass.vn/SoloDevApp.Service/obj/Release/netcoreapp2.1/SoloDevApp.Service.pdb
+/Users/user/Documents/CybersoftServer/apicrm.cybersoft.edu.vn/apicrm.myclass.vn/SoloDevApp.Service/bin/Release/netcoreapp2.1/SoloDevApp.Service.deps.json
+/Users/user/Documents/CybersoftServer/apicrm.cybersoft.edu.vn/apicrm.myclass.vn/SoloDevApp.Service/bin/Release/netcoreapp2.1/SoloDevApp.Service.dll
+/Users/user/Documents/CybersoftServer/apicrm.cybersoft.edu.vn/apicrm.myclass.vn/SoloDevApp.Service/bin/Release/netcoreapp2.1/SoloDevApp.Service.pdb
+/Users/user/Documents/CybersoftServer/apicrm.cybersoft.edu.vn/apicrm.myclass.vn/SoloDevApp.Service/bin/Release/netcoreapp2.1/SoloDevApp.Repository.dll
+/Users/user/Documents/CybersoftServer/apicrm.cybersoft.edu.vn/apicrm.myclass.vn/SoloDevApp.Service/bin/Release/netcoreapp2.1/SoloDevApp.Repository.pdb
+/Users/user/Documents/CybersoftServer/apicrm.cybersoft.edu.vn/apicrm.myclass.vn/SoloDevApp.Service/obj/Release/netcoreapp2.1/SoloDevApp.Service.csprojAssemblyReference.cache
+/Users/user/Documents/CybersoftServer/apicrm.cybersoft.edu.vn/apicrm.myclass.vn/SoloDevApp.Service/obj/Release/netcoreapp2.1/SoloDevApp.Service.AssemblyInfoInputs.cache
+/Users/user/Documents/CybersoftServer/apicrm.cybersoft.edu.vn/apicrm.myclass.vn/SoloDevApp.Service/obj/Release/netcoreapp2.1/SoloDevApp.Service.AssemblyInfo.cs
+/Users/user/Documents/CybersoftServer/apicrm.cybersoft.edu.vn/apicrm.myclass.vn/SoloDevApp.Service/obj/Release/netcoreapp2.1/SoloDevApp.Service.csproj.CopyComplete
+/Users/user/Documents/CybersoftServer/apicrm.cybersoft.edu.vn/apicrm.myclass.vn/SoloDevApp.Service/obj/Release/netcoreapp2.1/SoloDevApp.Service.dll
+/Users/user/Documents/CybersoftServer/apicrm.cybersoft.edu.vn/apicrm.myclass.vn/SoloDevApp.Service/obj/Release/netcoreapp2.1/SoloDevApp.Service.pdb
